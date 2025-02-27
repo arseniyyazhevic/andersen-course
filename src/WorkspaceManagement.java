@@ -1,36 +1,24 @@
+import java.util.HashSet;
+import java.util.Iterator;
+
+
 public class WorkspaceManagement {
-    private Integer id;
-    private TypeOfWorkspaces typeOfWorkspaces;
-    private Integer price;
-
-    private boolean availabilityStatus;
+    public static HashSet<CoworkingSpace> allCoworkingSpaces;
 
 
-    public void setId(Integer id) {
-        this.id = id;
+    public static CoworkingSpace getCoworkingSpaceById(int id) {
+        for (CoworkingSpace coworkingSpace : allCoworkingSpaces) {
+            if(coworkingSpace.getId() == id){
+                return coworkingSpace;
+            }
+        }
+        throw new RuntimeException("Coworking space with that id does not exist");
     }
 
-    public TypeOfWorkspaces getTypeOfWorkspaces() {
-        return typeOfWorkspaces;
+    public static void displayAllCoworkingSpaces() {
+        for (CoworkingSpace coworkingSpace: allCoworkingSpaces) {
+            System.out.println(coworkingSpace);
+        }
     }
 
-    public void setTypeOfWorkspaces(TypeOfWorkspaces typeOfWorkspaces) {
-        this.typeOfWorkspaces = typeOfWorkspaces;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public boolean isAvailabilityStatus() {
-        return availabilityStatus;
-    }
-
-    public void setAvailabilityStatus(boolean availabilityStatus) {
-        this.availabilityStatus = availabilityStatus;
-    }
 }

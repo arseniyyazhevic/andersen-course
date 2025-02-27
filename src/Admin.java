@@ -1,23 +1,21 @@
-public class Admin {
-    private String login;
+public class Admin extends User {
 
-    public void addCoworkingSpace() {
-
+    public void addCoworkingSpace(CoworkingSpace coworkingSpace) {
+        WorkspaceManagement.allCoworkingSpaces.add(coworkingSpace);
     }
 
-    public void removeCoworkingSpace() {
-
+    public void removeCoworkingSpace(int id) {
+       WorkspaceManagement.allCoworkingSpaces.remove(WorkspaceManagement.getCoworkingSpaceById(id));
     }
 
-    public void updateCoworkingSpace() {
 
+    public void updateAllInformationAboutCoworkingSpace(int id, CoworkingSpace coworkingSpace) {
+        removeCoworkingSpace(id);
+        addCoworkingSpace(coworkingSpace);
     }
 
-    public String getLogin() {
-        return login;
+    public void viewAllReservations() {
+        BookingManagement.displayAllBookings();
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
 }
