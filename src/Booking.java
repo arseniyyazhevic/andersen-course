@@ -1,5 +1,4 @@
-import java.util.Date;
-import java.util.HashSet;
+import java.time.LocalDate;
 
 public class Booking {
     private static Integer nextId;
@@ -8,12 +7,16 @@ public class Booking {
 
     private String startAndEndOfBookingTime;
 
-    private Date date;
+    private LocalDate date;
 
-    public Booking(String customerName, String startAndEndOfBookingTime, Date date) {
+    public Booking(String customerName, String startAndEndOfBookingTime, LocalDate date) {
         this.customerName = customerName;
         this.startAndEndOfBookingTime = startAndEndOfBookingTime;
         this.date = date;
+        this.id = nextId++;
+    }
+
+    public Booking() {
         this.id = nextId++;
     }
 
@@ -33,11 +36,11 @@ public class Booking {
         this.startAndEndOfBookingTime = startAndEndOfBookingTime;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

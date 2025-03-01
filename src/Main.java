@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class Main {
@@ -8,18 +9,28 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        User user = chooseRoleAndGetIt(scanner);
+        if(user == null) {
+            return;
+        }
+        Menu menu = createMenu(user);
+        user = createUser(user);
+        if (user instanceof Admin) {
+            handlingUserInputInAdminMenu((Admin) user, menu,scanner);
+        } else if (user instanceof Customer){
+            handlingUserInputInCustomerMenu((Customer) user, menu, scanner);
+        }
+    }
+
+    private static User chooseRoleAndGetIt(Scanner scanner){
         System.out.println(WELCOME_MESSAGE);
         User user = getUserFromUserInput(scanner);
         String userLoginInput = getLoginFromUserInput(scanner);
         if (userLoginInput.equals("exit")) {
-            return;
+            return null;
         }
         user.setLogin(userLoginInput);
-        Menu menu = createMenu(user);
-        Admin admin = (Admin) user;
-        handlingUserInputInAdminMenu(admin, menu,scanner);
-
-
+        return user;
     }
 
     private static User getUserFromUserInput(Scanner scanner) {
@@ -66,20 +77,37 @@ public class Main {
         }
     }
 
+    private static User createUser(User userRole) {
+        if (userRole instanceof Admin) {
+            return new Admin();
+        } else {
+            return new Customer();
+        }
+    }
+
     private static CoworkingSpace createCoworkingSpaceUsingUserInput(Scanner scanner) {
         CoworkingSpace coworkingSpace = new CoworkingSpace();
         System.out.println("Enter information about Coworking Space");
-        coworkingSpace.setName(getValidatedNameOfCoworkingFromUser(scanner));
+        coworkingSpace.setName(getValidatedNameFromUser(scanner));
         coworkingSpace.setTypeOfWorkspaces(getValidatedTypeOfWorkspaceUserInput(scanner));
         coworkingSpace.setPriceInDollars(getValidatedPriceOfCoworkingFromUser(scanner));
         coworkingSpace.setAvailabilityStatus(getValidatedAvailableStatusOfCoworkingFromUser(scanner));
         return coworkingSpace;
     }
 
+    private static Booking createBookingUsingUserInput(Scanner scanner) {
+        Booking booking = new Booking();
+        System.out.println("Enter information about Booking");
+        booking.setCustomerName(getValidatedNameFromUser(scanner));
+        booking.setDate(getValidatedDateFromUser(scanner));
+        booking.setStartAndEndOfBookingTime(getValidatedStartAndEndOfBookingTimeFromUser(scanner));
+        return booking;
+    }
+
     private static TypeOfWorkspaces getValidatedTypeOfWorkspaceUserInput(Scanner scanner) {
         boolean invalidTypeOfWorkspaceInput = true;
         TypeOfWorkspaces typeOfWorkspaces = null;
-        while(invalidTypeOfWorkspaceInput) {
+        while (invalidTypeOfWorkspaceInput) {
             System.out.print("Type of coworking (private/open space/room/meeting room) : ");
             try {
                 typeOfWorkspaces = TypeOfWorkspaces.getTypeOfWorkspaceFromUserInput(scanner);
@@ -91,16 +119,16 @@ public class Main {
         return typeOfWorkspaces;
     }
 
-    private static String getValidatedNameOfCoworkingFromUser(Scanner scanner) {
+    private static String getValidatedNameFromUser(Scanner scanner) {
         boolean invalidNameOfCoworkingSpaceInput = true;
         String str = null;
-        while(invalidNameOfCoworkingSpaceInput) {
+        while (invalidNameOfCoworkingSpaceInput) {
             System.out.print("Name: ");
-            if(scanner.hasNext()) {
+            if (scanner.hasNext()) {
                 str = scanner.next();
                 invalidNameOfCoworkingSpaceInput = false;
                 scanner.nextLine(); // clearing the buffer
-            }else {
+            } else {
                 System.out.println("Invalid input please try again");
             }
 
@@ -111,13 +139,13 @@ public class Main {
     private static Integer getValidatedPriceOfCoworkingFromUser(Scanner scanner) {
         boolean invalidPriceOfCoworkingSpaceInput = true;
         Integer price = null;
-        while(invalidPriceOfCoworkingSpaceInput) {
+        while (invalidPriceOfCoworkingSpaceInput) {
             System.out.print("Price in dollars: ");
-            if(scanner.hasNextInt()) {
+            if (scanner.hasNextInt()) {
                 price = scanner.nextInt();
                 invalidPriceOfCoworkingSpaceInput = false;
                 scanner.nextLine(); // clearing the buffer
-            }else {
+            } else {
                 System.out.println("Invalid input please try again");
             }
 
@@ -128,13 +156,13 @@ public class Main {
     private static Boolean getValidatedAvailableStatusOfCoworkingFromUser(Scanner scanner) {
         boolean invalidAvailableStatusOfCoworkingSpaceInput = true;
         Boolean availableStatus = null;
-        while(invalidAvailableStatusOfCoworkingSpaceInput) {
+        while (invalidAvailableStatusOfCoworkingSpaceInput) {
             System.out.print("Available status (false - not available/ true - available): ");
-            if(scanner.hasNextBoolean()) {
+            if (scanner.hasNextBoolean()) {
                 availableStatus = scanner.nextBoolean();
                 invalidAvailableStatusOfCoworkingSpaceInput = false;
                 scanner.nextLine(); // clearing the buffer
-            }else {
+            } else {
                 System.out.println("Invalid input please try again (false/ true)");
             }
 
@@ -142,12 +170,12 @@ public class Main {
         return availableStatus;
     }
 
-    private static Integer getValidatedIdOfCoworkingToDeleteFromUser(Scanner scanner) {
+    private static Integer getValidatedIdToDeleteFromUser(Scanner scanner) {
         boolean invalidIdUserInput = true;
         Integer id = null;
-        while(invalidIdUserInput) {
+        while (invalidIdUserInput) {
             try {
-                System.out.print("Enter an id of coworking space you want to delete: ");
+                System.out.print("Enter an id to delete: ");
                 if (scanner.hasNextInt()) {
                     id = scanner.nextInt();
                     invalidIdUserInput = false;
@@ -155,19 +183,67 @@ public class Main {
                 } else {
                     System.out.println("Invalid input please try again");
                 }
-            }catch (RuntimeException e) {
+            } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
             }
         }
         return id;
     }
 
+    private static LocalDate getValidatedDateFromUser(Scanner scanner){
+        boolean invalidDateOfBookingInput = true;
+        LocalDate date = null;
+        String[] userInput;
+        while (invalidDateOfBookingInput) {
+            System.out.print("Enter date (Example:year.month.dayOfMonth): ");
+            if (scanner.hasNext()) {
+                userInput = scanner.next().split("\\.");
+                date = LocalDate.of(Integer.parseInt(userInput[0]), Integer.parseInt(userInput[1]), Integer.parseInt(userInput[2]));
+                invalidDateOfBookingInput = false;
+                scanner.nextLine(); // clearing the buffer
+            } else {
+                System.out.println("Invalid input please try again (Example:year.month.dayOfMonth)");
+            }
+
+        }
+        return date;
+    }
+
+    private static String getValidatedStartAndEndOfBookingTimeFromUser(Scanner scanner) {
+        boolean invalidStartAndEndOfBookingTimeInput = true;
+        String startAndEndOfBookingTime = null;
+        String[] userInput;
+        while (invalidStartAndEndOfBookingTimeInput) {
+            System.out.print("Enter time of reservation and duration (18,2), 18 - time, 2 - duration: ");
+            if (scanner.hasNext()) {
+                userInput = scanner.next().split(",");
+                startAndEndOfBookingTime = userInput[0] + "00-" + Integer.parseInt(userInput[0]) + Integer.parseInt(userInput[1]) +"00";
+                invalidStartAndEndOfBookingTimeInput = false;
+                scanner.nextLine(); // clearing the buffer
+            } else {
+                System.out.println("Invalid input please try again (18,2), 18 - time, 2 - duration");
+            }
+
+        }
+        return startAndEndOfBookingTime;
+    }
+
     private static void removingCoworkingSpaceValidated(Admin admin, Scanner scanner) {
         boolean existOfCoworkingSpace = false;
-        while(!existOfCoworkingSpace) {
-            existOfCoworkingSpace = admin.removeCoworkingSpace(getValidatedIdOfCoworkingToDeleteFromUser(scanner));
-            if(!existOfCoworkingSpace){
+        while (!existOfCoworkingSpace) {
+            existOfCoworkingSpace = admin.removeCoworkingSpace(getValidatedIdToDeleteFromUser(scanner));
+            if (!existOfCoworkingSpace) {
                 System.out.println("Coworking Space with this id does not exist");
+            }
+        }
+    }
+
+    private static void removingBookingValidated(Customer customer, Scanner scanner) {
+        boolean existOfBooking = false;
+        while (!existOfBooking) {
+            existOfBooking = customer.cancelReservation(getValidatedIdToDeleteFromUser(scanner));
+            if (!existOfBooking) {
+                System.out.println("Booking with this id does not exist");
             }
         }
     }
@@ -185,13 +261,38 @@ public class Main {
                     break;
                 case 3:
                     WorkspaceManagement.displayAllCoworkingSpaces();
-                    admin.updateAllInformationAboutCoworkingSpace(getValidatedIdOfCoworkingToDeleteFromUser(scanner), createCoworkingSpaceUsingUserInput(scanner));
+                    admin.updateAllInformationAboutCoworkingSpace(getValidatedIdToDeleteFromUser(scanner), createCoworkingSpaceUsingUserInput(scanner));
                     break;
                 case 4:
                     BookingManagement.displayAllBookings();
                     break;
                 case 5:
+                    chooseRoleAndGetIt(scanner);
+                default:
+                    System.out.println("Incorrect input");
+                    break;
+
+            }
+        }
+    }
+    private static void handlingUserInputInCustomerMenu(Customer customer, Menu menu, Scanner scanner) {
+        while (true) {
+            menu.showMenu();
+            switch (scanner.nextInt()) {
+                case 1:
+                    WorkspaceManagement.displayAllCoworkingSpaces();
+                    break;
+                case 2:
+                    customer.makeReservation(createBookingUsingUserInput(scanner));
+                    break;
+                case 3:
+                    customer.cancelReservation(getValidatedIdToDeleteFromUser(scanner));
+                    break;
+                case 4:
+                    customer.viewReservations();
                     return;
+                case 5:
+                    chooseRoleAndGetIt(scanner);
                 default:
                     System.out.println("Incorrect input");
                     break;

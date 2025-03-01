@@ -6,11 +6,17 @@ public class Customer extends User {
     private HashSet<Booking> customerReservations;
 
 
-    public void cancelReservation(int id) {
-
+    public boolean cancelReservation(int id) {
+        Booking booking = BookingManagement.getBookingById(id);
+        if(booking == null) {
+            return false;
+        }else {
+            WorkspaceManagement.allCoworkingSpaces.remove(WorkspaceManagement.getCoworkingSpaceById(id));
+            return true;
+        }
     }
 
-    public void makeReservation(int id, Booking booking){
+    public void makeReservation(Booking booking){
         customerReservations.add(booking);
         BookingManagement.allBookings.add(booking);
     }
