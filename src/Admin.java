@@ -9,7 +9,7 @@ public class Admin extends User {
        if(coworkingSpace == null) {
            return false;
        }else {
-           WorkspaceManagement.allCoworkingSpaces.remove(WorkspaceManagement.getCoworkingSpaceById(id));
+           WorkspaceManagement.allCoworkingSpaces.remove(coworkingSpace);
            return true;
        }
     }

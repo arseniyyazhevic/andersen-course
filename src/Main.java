@@ -9,20 +9,10 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        User user = chooseRoleAndGetIt(scanner);
-        if(user == null) {
-            return;
-        }
-        Menu menu = createMenu(user);
-        user = createUser(user);
-        if (user instanceof Admin) {
-            handlingUserInputInAdminMenu((Admin) user, menu,scanner);
-        } else if (user instanceof Customer){
-            handlingUserInputInCustomerMenu((Customer) user, menu, scanner);
-        }
+        processingReservationApp(scanner);
     }
 
-    private static User chooseRoleAndGetIt(Scanner scanner){
+    private static User chooseRoleAndGetIt(Scanner scanner) {
         System.out.println(WELCOME_MESSAGE);
         User user = getUserFromUserInput(scanner);
         String userLoginInput = getLoginFromUserInput(scanner);
@@ -31,6 +21,20 @@ public class Main {
         }
         user.setLogin(userLoginInput);
         return user;
+    }
+
+    private static void processingReservationApp(Scanner scanner) {
+        User user = chooseRoleAndGetIt(scanner);
+        if (user == null) {
+            return;
+        }
+        Menu menu = createMenu(user);
+        user = createUser(user);
+        if (user instanceof Admin) {
+            handlingUserInputInAdminMenu((Admin) user, menu, scanner);
+        } else if (user instanceof Customer) {
+            handlingUserInputInCustomerMenu((Customer) user, menu, scanner);
+        }
     }
 
     private static User getUserFromUserInput(Scanner scanner) {
@@ -63,7 +67,7 @@ public class Main {
             if (userLoginInput.length() >= 5) {
                 return userLoginInput;
             } else {
-                System.out.println("Invalid role input, please try again.");
+                System.out.println("Invalid login, please try again.");
             }
         }
         throw new RuntimeException("Unknown Exception");
@@ -101,9 +105,9 @@ public class Main {
         booking.setCustomerName(getValidatedNameFromUser(scanner));
         booking.setDate(getValidatedDateFromUser(scanner));
         booking.setStartAndEndOfBookingTime(getValidatedStartAndEndOfBookingTimeFromUser(scanner));
+        booking.setIdOfCoworkingSpace(getValidatedIdOfCoworkingSpaceFromUser(scanner));
         return booking;
     }
-
     private static TypeOfWorkspaces getValidatedTypeOfWorkspaceUserInput(Scanner scanner) {
         boolean invalidTypeOfWorkspaceInput = true;
         TypeOfWorkspaces typeOfWorkspaces = null;
@@ -123,7 +127,7 @@ public class Main {
         boolean invalidNameOfCoworkingSpaceInput = true;
         String str = null;
         while (invalidNameOfCoworkingSpaceInput) {
-            System.out.print("Name: ");
+            System.out.print("Enter your name: ");
             if (scanner.hasNext()) {
                 str = scanner.next();
                 invalidNameOfCoworkingSpaceInput = false;
@@ -190,7 +194,28 @@ public class Main {
         return id;
     }
 
-    private static LocalDate getValidatedDateFromUser(Scanner scanner){
+    private static Integer getValidatedIdOfCoworkingSpaceFromUser(Scanner scanner) {
+        boolean invalidIdUserInput = true;
+        Integer id = null;
+        while (invalidIdUserInput) {
+            try {
+                WorkspaceManagement.displayAllCoworkingSpaces();
+                System.out.print("Enter id of coworking space you want to book: ");
+                if (scanner.hasNextInt()) {
+                    id = scanner.nextInt();
+                    invalidIdUserInput = false;
+                    scanner.nextLine(); // clearing the buffer
+                } else {
+                    System.out.println("Invalid input please try again");
+                }
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return id;
+    }
+
+    private static LocalDate getValidatedDateFromUser(Scanner scanner) {
         boolean invalidDateOfBookingInput = true;
         LocalDate date = null;
         String[] userInput;
@@ -213,11 +238,13 @@ public class Main {
         boolean invalidStartAndEndOfBookingTimeInput = true;
         String startAndEndOfBookingTime = null;
         String[] userInput;
+        int endOfBooking;
         while (invalidStartAndEndOfBookingTimeInput) {
             System.out.print("Enter time of reservation and duration (18,2), 18 - time, 2 - duration: ");
             if (scanner.hasNext()) {
                 userInput = scanner.next().split(",");
-                startAndEndOfBookingTime = userInput[0] + "00-" + Integer.parseInt(userInput[0]) + Integer.parseInt(userInput[1]) +"00";
+                endOfBooking = Integer.parseInt(userInput[0]) + Integer.parseInt(userInput[1]);
+                startAndEndOfBookingTime = userInput[0] + ":00-" + endOfBooking + ":00";
                 invalidStartAndEndOfBookingTimeInput = false;
                 scanner.nextLine(); // clearing the buffer
             } else {
@@ -267,7 +294,7 @@ public class Main {
                     BookingManagement.displayAllBookings();
                     break;
                 case 5:
-                    chooseRoleAndGetIt(scanner);
+                    processingReservationApp(scanner);
                 default:
                     System.out.println("Incorrect input");
                     break;
@@ -275,6 +302,7 @@ public class Main {
             }
         }
     }
+
     private static void handlingUserInputInCustomerMenu(Customer customer, Menu menu, Scanner scanner) {
         while (true) {
             menu.showMenu();
@@ -290,9 +318,9 @@ public class Main {
                     break;
                 case 4:
                     customer.viewReservations();
-                    return;
+                    break;
                 case 5:
-                    chooseRoleAndGetIt(scanner);
+                    processingReservationApp(scanner);
                 default:
                     System.out.println("Incorrect input");
                     break;

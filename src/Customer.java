@@ -3,7 +3,7 @@ import java.util.HashSet;
 public class Customer extends User {
 
 
-    private HashSet<Booking> customerReservations;
+    private HashSet<Booking> customerReservations = new HashSet<>();
 
 
     public boolean cancelReservation(int id) {
@@ -11,7 +11,8 @@ public class Customer extends User {
         if(booking == null) {
             return false;
         }else {
-            WorkspaceManagement.allCoworkingSpaces.remove(WorkspaceManagement.getCoworkingSpaceById(id));
+            BookingManagement.allBookings.remove(booking);
+            customerReservations.remove(booking);
             return true;
         }
     }
@@ -23,7 +24,8 @@ public class Customer extends User {
 
     public void viewReservations() {
         for (Booking booking: customerReservations) {
-            System.out.println(booking.getId() + "\n" + booking.getCustomerName() + "\n" + booking.getDate() + " " + booking.getStartAndEndOfBookingTime());
+            System.out.println(booking.getId() + "\n" + booking.getCustomerName() + "\n" + booking.getDate() + " " + booking.getStartAndEndOfBookingTime() +"\n"
+            + booking.getIdOfCoworkingSpace() + " " + WorkspaceManagement.getCoworkingSpaceById(booking.getIdOfCoworkingSpace()).getName());
             System.out.println("------------------------------");
         }
     }

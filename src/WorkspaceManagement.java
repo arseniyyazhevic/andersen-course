@@ -17,8 +17,10 @@ public class WorkspaceManagement {
 
     public static void displayAllCoworkingSpaces() {
         System.out.println("List of Coworking Spaces: ");
+        int i = 1;
         for (CoworkingSpace coworkingSpace: allCoworkingSpaces) {
-            System.out.println("1." + coworkingSpace);
+            System.out.println(i +". " + coworkingSpace);
+            i++;
         }
     }
 
