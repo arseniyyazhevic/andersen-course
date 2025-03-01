@@ -1,16 +1,19 @@
-import java.util.Set;
+import java.util.HashSet;
 
-public class Customer {
-    private String login;
+public class Customer extends User {
 
-    private Set<Booking> customerReservations;
+
+    private HashSet<Booking> customerReservations;
 
 
     public void cancelReservation(int id) {
 
     }
 
-    public void makeReservation(int id, Booking booking)
+    public void makeReservation(int id, Booking booking){
+        customerReservations.add(booking);
+        BookingManagement.allBookings.add(booking);
+    }
 
     public void viewReservations() {
         for (Booking booking: customerReservations) {

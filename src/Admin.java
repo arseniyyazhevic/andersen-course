@@ -4,8 +4,14 @@ public class Admin extends User {
         WorkspaceManagement.allCoworkingSpaces.add(coworkingSpace);
     }
 
-    public void removeCoworkingSpace(int id) {
-       WorkspaceManagement.allCoworkingSpaces.remove(WorkspaceManagement.getCoworkingSpaceById(id));
+    public boolean removeCoworkingSpace(int id){
+       CoworkingSpace coworkingSpace = WorkspaceManagement.getCoworkingSpaceById(id);
+       if(coworkingSpace == null) {
+           return false;
+       }else {
+           WorkspaceManagement.allCoworkingSpaces.remove(WorkspaceManagement.getCoworkingSpaceById(id));
+           return true;
+       }
     }
 
 

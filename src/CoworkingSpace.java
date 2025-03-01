@@ -18,7 +18,8 @@ public class CoworkingSpace {
         this.id = nextId++;
     }
 
-    public CoworkingSpace( ){
+    public CoworkingSpace(){
+        this.id = nextId++;
     }
 
     public TypeOfWorkspaces getTypeOfWorkspaces() {
@@ -59,11 +60,10 @@ public class CoworkingSpace {
 
     @Override
     public String toString() {
-        return "id=" + id +
-                ". " + name +
+        return  "(id)=" + id +
+                ", " + name +
                  ", typeOfWorkspaces=" + typeOfWorkspaces +
                 ", price=" + priceInDollars +
-                ", availabilityStatus=" + availabilityStatus +
-                '}';
+                ", availabilityStatus=" + availabilityStatus;
     }
 }
