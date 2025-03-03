@@ -1,8 +1,18 @@
+import entity.Booking;
+import entity.CoworkingSpace;
+import enums.TypeOfWorkspaces;
+import entity.menus.AdminMenu;
+import entity.menus.CustomerMenu;
+import entity.menus.Menu;
+import entity.roles.Admin;
+import entity.roles.Customer;
+import entity.roles.User;
 import exception.InvalidStartAndEndOfBookingException;
+import utils.BookingManagement;
+import utils.WorkspaceManagement;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -101,7 +111,7 @@ public class Main {
 
     private static Booking createBookingUsingUserInput(Scanner scanner) throws InvalidStartAndEndOfBookingException {
         Booking booking = new Booking();
-        System.out.println("Enter information about Booking");
+        System.out.println("Enter information about entity.Booking");
         booking.setCustomerName(getValidatedNameFromUser(scanner));
         booking.setDate(getValidatedDateFromUser(scanner));
         booking.setStartAndEndOfBookingTime(getValidatedStartAndEndOfBookingTimeFromUser(scanner));
@@ -282,7 +292,7 @@ public class Main {
         while (!existOfBooking) {
             existOfBooking = customer.cancelReservation(getValidatedIdToDeleteFromUser(scanner));
             if (!existOfBooking) {
-                System.out.println("Booking with this id does not exist");
+                System.out.println("entity.Booking with this id does not exist");
             }
         }
     }

@@ -1,3 +1,7 @@
+package entity;
+
+import utils.WorkspaceManagement;
+
 import java.time.LocalDate;
 
 public class Booking {

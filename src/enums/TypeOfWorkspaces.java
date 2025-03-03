@@ -1,4 +1,4 @@
-import java.util.Scanner;
+package enums;
 
 public enum TypeOfWorkspaces {
     OPEN_SPACE,
