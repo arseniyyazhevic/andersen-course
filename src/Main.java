@@ -1,3 +1,6 @@
+import exception.InvalidStartAndEndOfBookingException;
+
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -8,7 +11,7 @@ public class Main {
     private static final String WRITE_YOUR_LOGIN_MESSAGE = "If you want to Exit enter 3 or write down your login (five and more characters): ";
     private static final String CHOOSE_ROLE_MESSAGE = "Please choose your role Customer(1) or Admin(2): ";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidStartAndEndOfBookingException {
         Scanner scanner = new Scanner(System.in);
         processingReservationApp(scanner);
     }
@@ -24,7 +27,7 @@ public class Main {
         return user;
     }
 
-    private static void processingReservationApp(Scanner scanner) {
+    private static void processingReservationApp(Scanner scanner) throws InvalidStartAndEndOfBookingException {
         User user = chooseRoleAndGetIt(scanner);
         if (user == null) {
             return;
@@ -96,7 +99,7 @@ public class Main {
         return coworkingSpace;
     }
 
-    private static Booking createBookingUsingUserInput(Scanner scanner) {
+    private static Booking createBookingUsingUserInput(Scanner scanner) throws InvalidStartAndEndOfBookingException {
         Booking booking = new Booking();
         System.out.println("Enter information about Booking");
         booking.setCustomerName(getValidatedNameFromUser(scanner));
@@ -109,10 +112,11 @@ public class Main {
     private static TypeOfWorkspaces getValidatedTypeOfWorkspaceUserInput(Scanner scanner) {
         boolean invalidTypeOfWorkspaceInput = true;
         TypeOfWorkspaces typeOfWorkspaces = null;
-        String typeOfWorkSpace = scanner.next();
         while (invalidTypeOfWorkspaceInput) {
+            scanner.nextLine(); // clearing the buffer
             System.out.print("Type of coworking (private/open space/room/meeting room) : ");
             try {
+                String typeOfWorkSpace = scanner.next();
                 typeOfWorkspaces = TypeOfWorkspaces.getTypeOfWorkspaceFromUserInput(typeOfWorkSpace);
                 invalidTypeOfWorkspaceInput = false;
             } catch (RuntimeException e) {
@@ -126,11 +130,11 @@ public class Main {
         boolean invalidNameOfCoworkingSpaceInput = true;
         String str = null;
         while (invalidNameOfCoworkingSpaceInput) {
+            scanner.nextLine(); // clearing the buffer
             System.out.print("Enter your name: ");
             if (scanner.hasNext()) {
                 str = scanner.next();
                 invalidNameOfCoworkingSpaceInput = false;
-                scanner.nextLine(); // clearing the buffer
             } else {
                 System.out.println("Invalid input please try again");
             }
@@ -143,11 +147,12 @@ public class Main {
         boolean invalidPriceOfCoworkingSpaceInput = true;
         Integer price = null;
         while (invalidPriceOfCoworkingSpaceInput) {
+            scanner.nextLine();  // clearing the buffer
             System.out.print("Price in dollars: ");
             if (scanner.hasNextInt()) {
                 price = scanner.nextInt();
                 invalidPriceOfCoworkingSpaceInput = false;
-                scanner.nextLine(); // clearing the buffer
+
             } else {
                 System.out.println("Invalid input please try again");
             }
@@ -160,11 +165,11 @@ public class Main {
         boolean invalidAvailableStatusOfCoworkingSpaceInput = true;
         Boolean availableStatus = null;
         while (invalidAvailableStatusOfCoworkingSpaceInput) {
+            scanner.nextLine(); // clearing the buffer
             System.out.print("Available status (false - not available/ true - available): ");
             if (scanner.hasNextBoolean()) {
                 availableStatus = scanner.nextBoolean();
                 invalidAvailableStatusOfCoworkingSpaceInput = false;
-                scanner.nextLine(); // clearing the buffer
             } else {
                 System.out.println("Invalid input please try again (false/ true)");
             }
@@ -178,11 +183,11 @@ public class Main {
         Integer id = null;
         while (invalidIdUserInput) {
             try {
+                scanner.nextLine(); // clearing the buffer
                 System.out.print("Enter an id to delete: ");
                 if (scanner.hasNextInt()) {
                     id = scanner.nextInt();
                     invalidIdUserInput = false;
-                    scanner.nextLine(); // clearing the buffer
                 } else {
                     System.out.println("Invalid input please try again");
                 }
@@ -199,11 +204,11 @@ public class Main {
         while (invalidIdUserInput) {
             try {
                 WorkspaceManagement.displayAllCoworkingSpaces();
+                scanner.nextLine(); // clearing the buffer
                 System.out.print("Enter id of coworking space you want to book: ");
                 if (scanner.hasNextInt()) {
                     id = scanner.nextInt();
                     invalidIdUserInput = false;
-                    scanner.nextLine(); // clearing the buffer
                 } else {
                     System.out.println("Invalid input please try again");
                 }
@@ -219,12 +224,16 @@ public class Main {
         LocalDate date = null;
         String[] userInput;
         while (invalidDateOfBookingInput) {
+            scanner.nextLine(); // clearing the buffer
             System.out.print("Enter date (Example:year.month.dayOfMonth): ");
             if (scanner.hasNext()) {
-                userInput = scanner.next().split("\\.");
-                date = LocalDate.of(Integer.parseInt(userInput[0]), Integer.parseInt(userInput[1]), Integer.parseInt(userInput[2]));
-                invalidDateOfBookingInput = false;
-                scanner.nextLine(); // clearing the buffer
+                try {
+                    userInput = scanner.next().split("\\.");
+                    date = LocalDate.of(Integer.parseInt(userInput[0]), Integer.parseInt(userInput[1]), Integer.parseInt(userInput[2]));
+                    invalidDateOfBookingInput = false;
+                } catch (DateTimeException e) {
+                    System.out.println("Invalid input please try again (Example:year.month.dayOfMonth)");
+                }
             } else {
                 System.out.println("Invalid input please try again (Example:year.month.dayOfMonth)");
             }
@@ -233,19 +242,23 @@ public class Main {
         return date;
     }
 
-    private static String getValidatedStartAndEndOfBookingTimeFromUser(Scanner scanner) {
+    private static String getValidatedStartAndEndOfBookingTimeFromUser(Scanner scanner) throws InvalidStartAndEndOfBookingException { //  TODO - create custom exception here
         boolean invalidStartAndEndOfBookingTimeInput = true;
         String startAndEndOfBookingTime = null;
         String[] userInput;
         int endOfBooking;
         while (invalidStartAndEndOfBookingTimeInput) {
+            scanner.nextLine(); // clearing the buffer
             System.out.print("Enter time of reservation and duration (18,2), 18 - time, 2 - duration: ");
             if (scanner.hasNext()) {
-                userInput = scanner.next().split(",");
-                endOfBooking = Integer.parseInt(userInput[0]) + Integer.parseInt(userInput[1]);
-                startAndEndOfBookingTime = userInput[0] + ":00-" + endOfBooking + ":00";
-                invalidStartAndEndOfBookingTimeInput = false;
-                scanner.nextLine(); // clearing the buffer
+                try {
+                    userInput = scanner.next().split(",");
+                    endOfBooking = Integer.parseInt(userInput[0]) + Integer.parseInt(userInput[1]);
+                    startAndEndOfBookingTime = userInput[0] + ":00-" + endOfBooking + ":00";
+                    invalidStartAndEndOfBookingTimeInput = false;
+                } catch (Exception e) {
+                    throw new InvalidStartAndEndOfBookingException("Invalid input please try again (18,2), 18 - time, 2 - duration");
+                }
             } else {
                 System.out.println("Invalid input please try again (18,2), 18 - time, 2 - duration");
             }
@@ -274,25 +287,25 @@ public class Main {
         }
     }
 
-    private static void handlingUserInputInAdminMenu(Admin admin, Menu menu, Scanner scanner) {
+    private static void handlingUserInputInAdminMenu(Admin admin, Menu menu, Scanner scanner) throws InvalidStartAndEndOfBookingException {
         while (true) {
             menu.showMenu();
-            switch (scanner.nextInt()) {   //TODO - create a method to validate this input
-                case 1:
+            switch (scanner.next()) {   //TODO - create a method to validate this input
+                case "1":
                     admin.addCoworkingSpace(createCoworkingSpaceUsingUserInput(scanner));
                     break;
-                case 2:
+                case "2":
                     WorkspaceManagement.displayAllCoworkingSpaces();
                     removingCoworkingSpaceValidated(admin, scanner);
                     break;
-                case 3:
+                case "3":
                     WorkspaceManagement.displayAllCoworkingSpaces();
                     admin.updateAllInformationAboutCoworkingSpace(getValidatedIdToDeleteFromUser(scanner), createCoworkingSpaceUsingUserInput(scanner));
                     break;
-                case 4:
+                case "4":
                     BookingManagement.displayAllBookings();
                     break;
-                case 5:
+                case "5":
                     processingReservationApp(scanner);
                 default:
                     System.out.println("Incorrect input");
@@ -301,7 +314,7 @@ public class Main {
         }
     }
 
-    private static void handlingUserInputInCustomerMenu(Customer customer, Menu menu, Scanner scanner) {
+    private static void handlingUserInputInCustomerMenu(Customer customer, Menu menu, Scanner scanner) throws InvalidStartAndEndOfBookingException {
         while (true) {
             menu.showMenu();
             switch (scanner.nextInt()) {
