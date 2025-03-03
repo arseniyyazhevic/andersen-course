@@ -7,8 +7,8 @@ public enum TypeOfWorkspaces {
     MEETING_ROOM;
 
 
-    public static TypeOfWorkspaces getTypeOfWorkspaceFromUserInput(Scanner scanner) throws RuntimeException{
-        return switch (scanner.nextLine().toLowerCase()) {
+    public static TypeOfWorkspaces getTypeOfWorkspaceFromUserInput(String string) {
+        return switch (string.toLowerCase()) {
             case "private" -> TypeOfWorkspaces.PRIVATE;
             case "open space" -> TypeOfWorkspaces.OPEN_SPACE;
             case "room" -> TypeOfWorkspaces.ROOM;

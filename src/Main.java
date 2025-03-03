@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -38,8 +39,7 @@ public class Main {
     }
 
     private static User getUserFromUserInput(Scanner scanner) {
-        boolean validInput = false;
-        while (!validInput) {
+        while (true) {
             System.out.print(CHOOSE_ROLE_MESSAGE);
             if (scanner.hasNextLine()) {
                 String userInput = scanner.next();
@@ -52,13 +52,11 @@ public class Main {
                 }
             }
         }
-        throw new RuntimeException("Unknown exception");
     }
 
 
     private static String getLoginFromUserInput(Scanner scanner) {
-        boolean validInput = false;
-        while (!validInput) {
+        while (true) {
             System.out.print(WRITE_YOUR_LOGIN_MESSAGE);
             String userLoginInput = scanner.next();
             if (userLoginInput.equals("3") || userLoginInput.equalsIgnoreCase("exit")) {
@@ -70,7 +68,6 @@ public class Main {
                 System.out.println("Invalid login, please try again.");
             }
         }
-        throw new RuntimeException("Unknown Exception");
     }
 
     private static Menu createMenu(User userRole) {
@@ -108,13 +105,15 @@ public class Main {
         booking.setIdOfCoworkingSpace(getValidatedIdOfCoworkingSpaceFromUser(scanner));
         return booking;
     }
+
     private static TypeOfWorkspaces getValidatedTypeOfWorkspaceUserInput(Scanner scanner) {
         boolean invalidTypeOfWorkspaceInput = true;
         TypeOfWorkspaces typeOfWorkspaces = null;
+        String typeOfWorkSpace = scanner.next();
         while (invalidTypeOfWorkspaceInput) {
             System.out.print("Type of coworking (private/open space/room/meeting room) : ");
             try {
-                typeOfWorkspaces = TypeOfWorkspaces.getTypeOfWorkspaceFromUserInput(scanner);
+                typeOfWorkspaces = TypeOfWorkspaces.getTypeOfWorkspaceFromUserInput(typeOfWorkSpace);
                 invalidTypeOfWorkspaceInput = false;
             } catch (RuntimeException e) {
                 System.out.println("Invalid input, private/open space/room/meeting room ");
@@ -278,7 +277,7 @@ public class Main {
     private static void handlingUserInputInAdminMenu(Admin admin, Menu menu, Scanner scanner) {
         while (true) {
             menu.showMenu();
-            switch (scanner.nextInt()) {
+            switch (scanner.nextInt()) {   //TODO - create a method to validate this input
                 case 1:
                     admin.addCoworkingSpace(createCoworkingSpaceUsingUserInput(scanner));
                     break;
@@ -298,7 +297,6 @@ public class Main {
                 default:
                     System.out.println("Incorrect input");
                     break;
-
             }
         }
     }
