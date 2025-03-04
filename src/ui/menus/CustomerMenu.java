@@ -1,6 +1,6 @@
-package entity.menus;
+package ui.menus;
 
-import entity.menus.Menu;
+import ui.ConsoleOutput;
 
 public class CustomerMenu extends Menu {
 
@@ -8,6 +8,6 @@ public class CustomerMenu extends Menu {
 
     @Override
     public void showMenu() {
-        System.out.print(CUSTOMER_MENU_CONTEXT);
+        ConsoleOutput.print(CUSTOMER_MENU_CONTEXT);
     }
 }

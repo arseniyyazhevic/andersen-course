@@ -1,6 +1,6 @@
 package entity;
 
-import utils.WorkspaceManagement;
+import service.CoworkingSpaceService;
 
 import java.time.LocalDate;
 
@@ -70,6 +70,6 @@ public class Booking {
                 ", typeOfWorkspaces=" + date +
                 ", price=" + startAndEndOfBookingTime +
                 ", idOfCoworkingSpace=" + idOfCoworkingSpace +
-                ", nameOfCoworkingSpace=" + WorkspaceManagement.getCoworkingSpaceById(idOfCoworkingSpace).getName();
+                ", nameOfCoworkingSpace=" + CoworkingSpaceService.getCoworkingSpaceById(idOfCoworkingSpace).getName();
     }
 }
