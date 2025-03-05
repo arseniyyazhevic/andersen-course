@@ -2,7 +2,9 @@ package entity;
 
 import enums.TypeOfWorkspaces;
 
-public class CoworkingSpace {
+import java.io.Serializable;
+
+public class CoworkingSpace implements Serializable {
     private static Integer nextId = 1;
 
     private final int id;

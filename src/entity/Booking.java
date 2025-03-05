@@ -2,12 +2,14 @@ package entity;
 
 import service.CoworkingSpaceService;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Booking {
+public class Booking implements Serializable {
     private static Integer nextId = 1;
     private final Integer id;
     private String customerName;
+    private Integer userId; // TODO - when you create an object u need to connect it with you user
 
     private String startAndEndOfBookingTime;
 

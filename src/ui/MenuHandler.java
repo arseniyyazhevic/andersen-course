@@ -55,11 +55,13 @@ public class MenuHandler {
     public void handlingUserInputInCustomerMenu(CustomerMenu menu) {
         while (true) {
             menu.showMenu();
-            switch (consoleInput.getString("Make your choise: ")) {
+            switch (consoleInput.getString("Make your choice: ")) {
                 case "1" -> CoworkingSpaceService.displayAllCoworkingSpaces();
                 case "2" -> bookingService.makeReservation(createBookingUsingUserInput());
-                case "3" ->
-                        BookingValidator.removingBookingValidated(bookingService, consoleInput.getId("Enter an id"));
+                case "3" -> {
+                    bookingService.viewMyReservations();
+                    bookingService.cancelReservation(consoleInput.getIdBook("Enter an id", bookingService));
+                }
                 case "4" -> bookingService.viewMyReservations();
                 case "5" -> processingReservationApp();
                 default -> ConsoleOutput.println("Incorrect input");
@@ -75,7 +77,7 @@ public class MenuHandler {
                         coworkingSpaceService.addCoworkingSpace(createCoworkingSpace());
                 case "2" -> {
                     CoworkingSpaceService.displayAllCoworkingSpaces();
-                    CoworkingSpaceValidator.removingCoworkingSpaceValidated(coworkingSpaceService, consoleInput.getId("Enter and id: "));
+                    coworkingSpaceService.removeCoworkingSpace(consoleInput.getIdCoworkingSpace("Enter and id: "));
                 }
                 case "3" ->
                         coworkingSpaceService.updateAllInformationAboutCoworkingSpace(consoleInput.getId("Enter an id to delete: "), createCoworkingSpace());
