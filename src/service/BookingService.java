@@ -3,12 +3,13 @@ package service;
 import entity.Booking;
 import ui.ConsoleInput;
 import ui.ConsoleOutput;
+import util.FileUtils;
 import validation.BookingValidator;
 
 import java.util.HashSet;
 
 public class BookingService {
-    public static HashSet<Booking> allBookings = new HashSet<>();
+    public static HashSet<Booking> allBookings;
     public HashSet<Booking> customerReservations = new HashSet<>();
 
     public BookingService() {
@@ -24,15 +25,9 @@ public class BookingService {
         return null;
     }
 
-    public boolean cancelReservation(int id) {
-        Booking booking = getBookingById(id);
-        if (booking == null) {
-            return false;
-        } else {
-            BookingService.allBookings.remove(booking);
-            customerReservations.remove(booking);
-            return true;
-        }
+    public void cancelReservation(int id) { // TODO
+            BookingService.allBookings.remove(getBookingById(id));
+            customerReservations.remove(getBookingById(id));
     }
 
     public void makeReservation(Booking booking) {
@@ -43,7 +38,7 @@ public class BookingService {
     public void viewMyReservations() {
         for (Booking booking : customerReservations) {
             ConsoleOutput.println(booking.getId() + "\n" + booking.getCustomerName() + "\n" + booking.getDate() + " " + booking.getStartAndEndOfBookingTime() + "\n" +
-                    + booking.getIdOfCoworkingSpace() + " " + (CoworkingSpaceService.getCoworkingSpaceById(booking.getIdOfCoworkingSpace())).getName());
+                    +booking.getIdOfCoworkingSpace() + " " + (CoworkingSpaceService.getCoworkingSpaceById(booking.getIdOfCoworkingSpace())).getName());
             ConsoleOutput.println("------------------------------");
         }
     }
@@ -53,6 +48,14 @@ public class BookingService {
         for (Booking booking : allBookings) {
             ConsoleOutput.println(booking.toString());
         }
+    }
+
+    public void saveAllBookingsToFile(String fileName) {
+        FileUtils.saveBookingsToFile(fileName, allBookings);
+    }
+
+    public void loadBookingFromFile(String fileName) {
+        allBookings = FileUtils.loadBookingsFromFile(fileName);
     }
 
 }

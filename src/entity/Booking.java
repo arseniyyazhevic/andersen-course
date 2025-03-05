@@ -2,15 +2,16 @@ package entity;
 
 import service.CoworkingSpaceService;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 
 public class Booking implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private static Integer nextId = 1;
     private final Integer id;
     private String customerName;
-    private Integer userId; // TODO - when you create an object u need to connect it with you user
-
     private String startAndEndOfBookingTime;
 
     private LocalDate date;

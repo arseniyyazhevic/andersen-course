@@ -1,13 +1,10 @@
 package service;
 
 import entity.CoworkingSpace;
-import enums.TypeOfWorkspaces;
-import ui.ConsoleInput;
 import ui.ConsoleOutput;
-import validation.CoworkingSpaceValidator;
+import util.FileUtils;
 
 import java.util.HashSet;
-import java.util.Scanner;
 
 public class CoworkingSpaceService {
     public static HashSet<CoworkingSpace> allCoworkingSpaces = new HashSet<>();
@@ -51,6 +48,14 @@ public class CoworkingSpaceService {
             System.out.println(i + ". " + coworkingSpace);
             i++;
         }
+    }
+
+    public void saveAllCoworkingSpacesToFile(String fileName) {
+        FileUtils.saveCoworkingSpacesToFile(fileName, allCoworkingSpaces);
+    }
+
+    public void loadCoworkingSpacesFromFile(String fileName) {
+        allCoworkingSpaces = FileUtils.loadCoworkingSpacesFromFile(fileName);
     }
 
 }
