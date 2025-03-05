@@ -2,13 +2,16 @@ package entity;
 
 import service.CoworkingSpaceService;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Booking {
+public class Booking implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     private static Integer nextId = 1;
     private final Integer id;
     private String customerName;
-
     private String startAndEndOfBookingTime;
 
     private LocalDate date;

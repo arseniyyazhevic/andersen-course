@@ -11,9 +11,9 @@ import service.UserService;
 import ui.menus.AdminMenu;
 import ui.menus.CustomerMenu;
 import ui.menus.Menu;
-import validation.BookingValidator;
-import validation.CoworkingSpaceValidator;
-import validation.Validator;
+import util.FileUtils;
+
+import java.util.HashSet;
 
 public class MenuHandler {
     private final BookingService bookingService;
@@ -29,11 +29,12 @@ public class MenuHandler {
     }
 
 
-    public void processingReservationApp(){
+    public void processingReservationApp() {
         ConsoleOutput.println("Welcome to Coworking Space Reservation App – Your Gateway to Productive Workspaces!");
         User user = userService.getUserAndSetLogin(consoleInput);
         if (user == null) {
-            return;
+            saveDataToFile();
+            System.exit(0);
         }
         Menu menu = createMenu(user);
         user = userService.createUser(user);
@@ -54,12 +55,15 @@ public class MenuHandler {
 
     public void handlingUserInputInCustomerMenu(CustomerMenu menu) {
         while (true) {
+            saveDataToFile();
             menu.showMenu();
-            switch (consoleInput.getString("Make your choise: ")) {
+            switch (consoleInput.getString("Make your choice: ")) {
                 case "1" -> CoworkingSpaceService.displayAllCoworkingSpaces();
                 case "2" -> bookingService.makeReservation(createBookingUsingUserInput());
-                case "3" ->
-                        BookingValidator.removingBookingValidated(bookingService, consoleInput.getId("Enter an id"));
+                case "3" -> {
+                    bookingService.viewMyReservations();
+                    bookingService.cancelReservation(consoleInput.getIdBook("Enter an id", bookingService));
+                }
                 case "4" -> bookingService.viewMyReservations();
                 case "5" -> processingReservationApp();
                 default -> ConsoleOutput.println("Incorrect input");
@@ -69,13 +73,13 @@ public class MenuHandler {
 
     public void handlingUserInputInAdminMenu(AdminMenu menu) {
         while (true) {
+            saveDataToFile();
             menu.showMenu();
             switch (consoleInput.getString("")) {
-                case "1" ->
-                        coworkingSpaceService.addCoworkingSpace(createCoworkingSpace());
+                case "1" -> coworkingSpaceService.addCoworkingSpace(createCoworkingSpace());
                 case "2" -> {
                     CoworkingSpaceService.displayAllCoworkingSpaces();
-                    CoworkingSpaceValidator.removingCoworkingSpaceValidated(coworkingSpaceService, consoleInput.getId("Enter and id: "));
+                    coworkingSpaceService.removeCoworkingSpace(consoleInput.getIdCoworkingSpace("Enter and id: "));
                 }
                 case "3" ->
                         coworkingSpaceService.updateAllInformationAboutCoworkingSpace(consoleInput.getId("Enter an id to delete: "), createCoworkingSpace());
@@ -105,5 +109,10 @@ public class MenuHandler {
         coworkingSpace.setPriceInDollars(consoleInput.getPrice("Price in dollars: "));
         coworkingSpace.setAvailabilityStatus(consoleInput.getAvailableStatus("Available status (false - not available/ true - available): "));
         return coworkingSpace;
+    }
+
+    private void saveDataToFile() {
+        coworkingSpaceService.saveAllCoworkingSpacesToFile("data/coworkingSpaces.bin");
+        bookingService.saveAllBookingsToFile("data/bookings.bin");
     }
 }
