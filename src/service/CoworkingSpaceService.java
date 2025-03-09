@@ -1,55 +1,54 @@
 package service;
 
+import entity.Booking;
 import entity.CoworkingSpace;
-import enums.TypeOfWorkspaces;
-import ui.ConsoleInput;
 import ui.ConsoleOutput;
-import validation.CoworkingSpaceValidator;
+import util.FileUtils;
 
-import java.util.HashSet;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CoworkingSpaceService {
-    public static HashSet<CoworkingSpace> allCoworkingSpaces = new HashSet<>();
+    public static HashMap<Integer, CoworkingSpace> allCoworkingSpaces;
 
     public CoworkingSpaceService() {
     }
 
     public static CoworkingSpace getCoworkingSpaceById(int id) {
-        for (CoworkingSpace coworkingSpace : allCoworkingSpaces) {
-            if (coworkingSpace.getId() == id) {
-                return coworkingSpace;
-            }
-        }
-        return null;
+       return allCoworkingSpaces.get(id);
     }
 
     public void addCoworkingSpace(CoworkingSpace coworkingSpace) {
-        CoworkingSpaceService.allCoworkingSpaces.add(coworkingSpace);
+        allCoworkingSpaces.put(coworkingSpace.getId(), coworkingSpace);
     }
 
     public void updateAllInformationAboutCoworkingSpace(int id, CoworkingSpace coworkingSpace) {
-        displayAllCoworkingSpaces();
-        removeCoworkingSpace(id);
-        addCoworkingSpace(coworkingSpace);
+        allCoworkingSpaces.put(id, coworkingSpace);
     }
 
-    public boolean removeCoworkingSpace(int id) {
-        CoworkingSpace coworkingSpace = getCoworkingSpaceById(id);
-        if (coworkingSpace == null) {
-            return false;
-        } else {
-            CoworkingSpaceService.allCoworkingSpaces.remove(coworkingSpace);
-            return true;
-        }
+    public void removeCoworkingSpace(int id) {
+        allCoworkingSpaces.remove(id);
     }
 
     public static void displayAllCoworkingSpaces() {
         ConsoleOutput.println("List of Coworking Spaces: ");
         int i = 1;
-        for (CoworkingSpace coworkingSpace : allCoworkingSpaces) {
-            System.out.println(i + ". " + coworkingSpace);
-            i++;
+        for (Map.Entry<Integer, CoworkingSpace> entry : allCoworkingSpaces.entrySet()) {
+            System.out.println(i + ". " + entry.getValue());
+        }
+    }
+
+    public void saveAllCoworkingSpacesToFile(String fileName) {
+        FileUtils.saveCoworkingSpacesToFile(fileName, allCoworkingSpaces);
+    }
+
+    public void loadCoworkingSpacesFromFile(String fileName) {
+        HashMap<Integer, CoworkingSpace> input = FileUtils.loadCoworkingSpacesFromFile(fileName);
+//        for(var entry : input.entrySet()) {
+//            System.out.println(entry.getValue() + " " + entry.getKey());
+//        }
+        if(input != null) {
+            allCoworkingSpaces =  input;
         }
     }
 

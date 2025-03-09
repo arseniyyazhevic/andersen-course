@@ -1,9 +1,16 @@
 package ui;
 
+import entity.CoworkingSpace;
+import entity.roles.Admin;
+import entity.roles.Customer;
+import entity.roles.User;
 import enums.TypeOfWorkspaces;
 import exception.ValidationException;
+import service.BookingService;
+import service.CoworkingSpaceService;
 import validation.BookingValidator;
 import validation.CoworkingSpaceValidator;
+import validation.UserValidator;
 
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -12,6 +19,7 @@ public class ConsoleInput {
     private final Scanner scanner = new Scanner(System.in);
     private final BookingValidator bookingValidator = new BookingValidator();
     private final CoworkingSpaceValidator coworkingSpaceValidator = new CoworkingSpaceValidator();
+    private final UserValidator userValidator = new UserValidator();
 
 
     public String getString(String prompt) {
@@ -41,8 +49,7 @@ public class ConsoleInput {
         while (true) {
             String strTypeOfWorkspaces = (getLine(prompt));
             try {
-                TypeOfWorkspaces typeOfWorkspaces = coworkingSpaceValidator.validateTypeOfWorkspaceUserInput(strTypeOfWorkspaces);
-                return typeOfWorkspaces;
+                return coworkingSpaceValidator.validateTypeOfWorkspaceUserInput(strTypeOfWorkspaces);
             } catch (ValidationException e) {
                 ConsoleOutput.println(e.getMessage());
             }
@@ -53,8 +60,7 @@ public class ConsoleInput {
         while (true) {
             int price = getInt(prompt);
             try {
-                coworkingSpaceValidator.validatePriceOfCoworkingFromUser(price);
-                return price;
+                return coworkingSpaceValidator.validatePriceOfCoworkingFromUser(price);
             } catch (ValidationException e) {
                 ConsoleOutput.println(e.getMessage());
             }
@@ -65,20 +71,20 @@ public class ConsoleInput {
         while (true) {
             String strAvailableStatus = getString(prompt);
             try {
-                Boolean availableStatus = coworkingSpaceValidator.validateAvailableStatus(strAvailableStatus);
-                return availableStatus;
+                return coworkingSpaceValidator.validateAvailableStatus(strAvailableStatus);
             } catch (ValidationException e) {
                 ConsoleOutput.println(e.getMessage());
             }
         }
     }
 
+
+
     public LocalDate getDate(String prompt) {
         while (true) {
             String strLocalDate = getString(prompt);
             try {
-                LocalDate localDate = bookingValidator.validateDate(strLocalDate); // TODO
-                return localDate;
+                return bookingValidator.validateDate(strLocalDate);
             } catch (ValidationException e) {
                 ConsoleOutput.println(e.getMessage());
             }
@@ -89,8 +95,28 @@ public class ConsoleInput {
         while (true) {
             String startAndEndOfBookingTime = getString(prompt);
             try {
-                String validatedstartAndEndOfBookingTime = bookingValidator.validateStartAndEndOfBookingTime(startAndEndOfBookingTime); // TODO
-                return validatedstartAndEndOfBookingTime;
+                return bookingValidator.validateStartAndEndOfBookingTime(startAndEndOfBookingTime);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+    public int getIdBook(String prompt, BookingService bookingService) {
+        while (true) {
+            int id = getInt(prompt);
+            try {
+                return bookingValidator.validateIdBook(bookingService, id);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+
+    public int getIdCoworkingSpace(String prompt){
+        while (true) {
+            int id = getInt(prompt);
+            try {
+                return coworkingSpaceValidator.validateIdCoworkingSpace(id);
             } catch (ValidationException e) {
                 ConsoleOutput.println(e.getMessage());
             }
@@ -102,8 +128,7 @@ public class ConsoleInput {
         while (true) {
             int id = getInt(prompt);
             try {
-                coworkingSpaceValidator.validateId(id);
-                return id;
+                return coworkingSpaceValidator.validateId(id);
             } catch (ValidationException e) {
                 ConsoleOutput.println(e.getMessage());
             }
@@ -114,8 +139,29 @@ public class ConsoleInput {
         while (true) {
             String name = getString(prompt);
             try {
-                bookingValidator.validateName(name);
-                return name;
+                return bookingValidator.validateName(name);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+
+    public User getUserRoleInput(String prompt) {
+        while (true) {
+            String userInput = getString(prompt);
+            try {
+                return userValidator.validateRoleInput(userInput);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+
+    public String getUserLoginInput(String prompt) {
+        while (true) {
+            String userInput = getString(prompt);
+            try {
+                return userValidator.validateUserLogin(userInput);
             } catch (ValidationException e) {
                 ConsoleOutput.println(e.getMessage());
             }
