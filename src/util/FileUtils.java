@@ -13,7 +13,7 @@ public class FileUtils {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
             oos.writeObject(allBookings);
         } catch (IOException e) {
-            ConsoleOutput.println(e.getMessage());
+            ConsoleOutput.println("Error: could not enter booking data into the database");
         }
     }
 
@@ -21,7 +21,7 @@ public class FileUtils {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
             oos.writeObject(coworkingSpaces);
         } catch (IOException e) {
-            ConsoleOutput.println(e.getMessage());
+            ConsoleOutput.println("Error: could not enter coworking data into the database");
         }
     }
 
@@ -29,7 +29,7 @@ public class FileUtils {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
             return (HashSet<CoworkingSpace>) ois.readObject();
         } catch (ClassNotFoundException | IOException e) {
-            ConsoleOutput.println(e.getMessage());
+            ConsoleOutput.println("Error: Program can't load information about coworking spaces, program starts without data about it");
         }
         return new HashSet<>();
     }
@@ -38,7 +38,7 @@ public class FileUtils {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
             return (HashSet<Booking>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            ConsoleOutput.println(e.getMessage());
+            ConsoleOutput.println("Error: Program can't load information about bookings, program starts without data about it");
         }
         return new HashSet<>();
     }
