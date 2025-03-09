@@ -1,6 +1,5 @@
 package service;
 
-import entity.CoworkingSpace;
 import entity.roles.Admin;
 import entity.roles.Customer;
 import entity.roles.User;
@@ -22,8 +21,8 @@ public class UserService {
     }
 
     public User getUserAndSetLogin(ConsoleInput consoleInput) {
-        User user = UserValidator.getUserFromUserInput(consoleInput.getString(("Please choose your role Customer(1) or Admin(2): ")));
-        String userLoginInput = UserValidator.getLoginFromUserInput(consoleInput.getString(("If you want to Exit enter 3 or write down your login (five and more characters): ")));
+        User user = consoleInput.getUserRoleInput("Please choose your role Customer(1) or Admin(2): ");
+        String userLoginInput = consoleInput.getUserLoginInput(("If you want to Exit enter 3 or write down your login (five and more characters): "));
         if (userLoginInput.equals("exit") || userLoginInput.equals("3")) {
             return null;
         }
