@@ -5,11 +5,10 @@ import entity.CoworkingSpace;
 import ui.ConsoleOutput;
 
 import java.io.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
 
 public class FileUtils {
-    public static void saveBookingsToFile(String fileName, HashSet<Booking> allBookings) {
+    public static void saveBookingsToFile(String fileName, HashMap<Integer, Booking> allBookings) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
             oos.writeObject(allBookings);
         } catch (IOException e) {
@@ -17,7 +16,7 @@ public class FileUtils {
         }
     }
 
-    public static void saveCoworkingSpacesToFile(String fileName, HashSet<CoworkingSpace> coworkingSpaces) {
+    public static void saveCoworkingSpacesToFile(String fileName, HashMap<Integer, CoworkingSpace> coworkingSpaces) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
             oos.writeObject(coworkingSpaces);
         } catch (IOException e) {
@@ -25,22 +24,24 @@ public class FileUtils {
         }
     }
 
-    public static HashSet<CoworkingSpace> loadCoworkingSpacesFromFile(String fileName) {
+    public static HashMap<Integer, CoworkingSpace> loadCoworkingSpacesFromFile(String fileName) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            return (HashSet<CoworkingSpace>) ois.readObject();
+            return (HashMap<Integer, CoworkingSpace>) ois.readObject();
         } catch (ClassNotFoundException | IOException e) {
             ConsoleOutput.println("Error: Program can't load information about coworking spaces, program starts without data about it");
+            ConsoleOutput.println("bad connection");
+            return new HashMap<>();
         }
-        return new HashSet<>();
     }
 
-    public static HashSet<Booking> loadBookingsFromFile(String fileName) {
+    public static HashMap<Integer, Booking> loadBookingsFromFile(String fileName) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            return (HashSet<Booking>) ois.readObject();
+            return (HashMap<Integer, Booking>) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
             ConsoleOutput.println("Error: Program can't load information about bookings, program starts without data about it");
+            return new HashMap<>();
         }
-        return new HashSet<>();
+
     }
 
 }

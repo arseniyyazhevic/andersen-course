@@ -1,61 +1,62 @@
 package service;
 
 import entity.Booking;
-import ui.ConsoleInput;
+import entity.CoworkingSpace;
 import ui.ConsoleOutput;
 import util.FileUtils;
-import validation.BookingValidator;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 
 public class BookingService {
-    public static HashSet<Booking> allBookings;
-    public HashSet<Booking> customerReservations = new HashSet<>();
+    public static HashMap<Integer, Booking> allBookingsByCoworking = new HashMap<>();
+    public HashMap<Integer, Booking> customerReservations = new HashMap<>();
 
     public BookingService() {
     }
 
 
     public Booking getBookingById(int id) {
-        for (Booking booking : allBookings) {
-            if (booking.getId() == id) {
-                return booking;
-            }
-        }
-        return null;
+        return allBookingsByCoworking.get(id);
     }
 
     public void cancelReservation(int id) { // TODO
-            BookingService.allBookings.remove(getBookingById(id));
-            customerReservations.remove(getBookingById(id));
+            allBookingsByCoworking.remove(id);
+            customerReservations.remove(id);
     }
 
     public void makeReservation(Booking booking) {
-        customerReservations.add(booking);
-        BookingService.allBookings.add(booking);
+        allBookingsByCoworking.put(booking.getId(), booking);
+        customerReservations.put(booking.getId(), booking);
     }
 
     public void viewMyReservations() {
-        for (Booking booking : customerReservations) {
-            ConsoleOutput.println(booking.getId() + "\n" + booking.getCustomerName() + "\n" + booking.getDate() + " " + booking.getStartAndEndOfBookingTime() + "\n" +
-                    +booking.getIdOfCoworkingSpace() + " " + (CoworkingSpaceService.getCoworkingSpaceById(booking.getIdOfCoworkingSpace())).getName());
-            ConsoleOutput.println("------------------------------");
+        ConsoleOutput.println("List of Customer Reservations: ");
+        int i = 1;
+        for (Map.Entry<Integer, Booking> entry : customerReservations.entrySet()) {
+            System.out.println(i + ". " + entry.getValue());
         }
     }
 
     public void displayAllBookings() {
-        ConsoleOutput.println("list of bookings: ");
-        for (Booking booking : allBookings) {
-            ConsoleOutput.println(booking.toString());
+        ConsoleOutput.println("List of Bookings: ");
+        int i = 1;
+        for (Map.Entry<Integer, Booking> entry : allBookingsByCoworking.entrySet()) {
+            System.out.println(i + ". " + entry.getValue());
         }
     }
 
     public void saveAllBookingsToFile(String fileName) {
-        FileUtils.saveBookingsToFile(fileName, allBookings);
+        FileUtils.saveBookingsToFile(fileName, allBookingsByCoworking);
     }
 
     public void loadBookingFromFile(String fileName) {
-        allBookings = FileUtils.loadBookingsFromFile(fileName);
+        HashMap<Integer, Booking> input = FileUtils.loadBookingsFromFile(fileName);
+        if(input != null) {
+            allBookingsByCoworking = input;
+        }
     }
 
 }

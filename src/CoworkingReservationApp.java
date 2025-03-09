@@ -12,6 +12,7 @@ public class CoworkingReservationApp {
     private static final MenuHandler menuHandler = new MenuHandler(bookingService, coworkingSpaceService, userService, consoleInput);
     public static void main(String[] args) {
         coworkingSpaceService.loadCoworkingSpacesFromFile("data/coworkingSpaces.bin");
+        bookingService.loadBookingFromFile("data/bookings.bin");
         menuHandler.processingReservationApp();
     }
 }
