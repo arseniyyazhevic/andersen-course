@@ -4,6 +4,7 @@ import entity.Booking;
 import entity.CoworkingSpace;
 import ui.ConsoleOutput;
 import util.FileUtils;
+import util.SortingUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,10 +34,8 @@ public class CoworkingSpaceService {
 
     public static void displayAllCoworkingSpaces() {
         ConsoleOutput.println("List of Coworking Spaces: ");
-        int i = 1;
-        for (Map.Entry<Integer, CoworkingSpace> entry : allCoworkingSpaces.entrySet()) {
-            System.out.println(i + ". " + entry.getValue());
-        }
+        SortingUtil.sortById(allCoworkingSpaces).forEach((key, value) -> System.out.println(value));
+        allCoworkingSpaces.forEach((key, value)-> System.out.println(value));
     }
 
     public void saveAllCoworkingSpacesToFile(String fileName) {
