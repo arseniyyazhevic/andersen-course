@@ -35,11 +35,7 @@ public class BookingValidator extends Validator {
     }
 
     public int validateIdBook(BookingService bookingService, int id) throws ValidationException { // TODO
-        Booking booking = bookingService.getBookingById(id);
-        if (booking != null) {
-            return id;
-        } else {
-            throw new ValidationException(", booking with this id does not exist");
-        }
+        Booking booking = bookingService.getBookingById(id).orElseThrow(() -> new ValidationException(", booking with this id does not exist"));
+        return id;
     }
 }

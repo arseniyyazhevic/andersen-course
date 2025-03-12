@@ -73,6 +73,6 @@ public class Booking implements Serializable {
                 ", typeOfWorkspaces=" + date +
                 ", price=" + startAndEndOfBookingTime +
                 ", idOfCoworkingSpace=" + idOfCoworkingSpace +
-                ", nameOfCoworkingSpace=" + CoworkingSpaceService.getCoworkingSpaceById(idOfCoworkingSpace).getName();
+                ", nameOfCoworkingSpace=" + CoworkingSpaceService.getCoworkingSpaceById(idOfCoworkingSpace).orElseThrow().getName();
     }
 }

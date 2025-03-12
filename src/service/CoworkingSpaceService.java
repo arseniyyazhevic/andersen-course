@@ -7,6 +7,7 @@ import util.FileUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class CoworkingSpaceService {
     public static HashMap<Integer, CoworkingSpace> allCoworkingSpaces;
@@ -14,8 +15,8 @@ public class CoworkingSpaceService {
     public CoworkingSpaceService() {
     }
 
-    public static CoworkingSpace getCoworkingSpaceById(int id) {
-       return allCoworkingSpaces.get(id);
+    public static Optional<CoworkingSpace> getCoworkingSpaceById(int id) {
+       return Optional.ofNullable(allCoworkingSpaces.get(id));
     }
 
     public void addCoworkingSpace(CoworkingSpace coworkingSpace) {
@@ -43,13 +44,7 @@ public class CoworkingSpaceService {
     }
 
     public void loadCoworkingSpacesFromFile(String fileName) {
-        HashMap<Integer, CoworkingSpace> input = FileUtils.loadCoworkingSpacesFromFile(fileName);
-//        for(var entry : input.entrySet()) {
-//            System.out.println(entry.getValue() + " " + entry.getKey());
-//        }
-        if(input != null) {
-            allCoworkingSpaces =  input;
-        }
+        allCoworkingSpaces = FileUtils.loadCoworkingSpacesFromFile(fileName).orElse(new HashMap<>());
     }
 
 }

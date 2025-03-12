@@ -4,10 +4,9 @@ import entity.roles.Admin;
 import entity.roles.Customer;
 import entity.roles.User;
 import exception.ValidationException;
-import ui.ConsoleOutput;
 
 public class UserValidator {
-    public User validateRoleInput(String userInput) throws ValidationException { // TODO
+    public User validateRoleInput(String userInput) throws ValidationException {
         if (userInput.equalsIgnoreCase("customer") || userInput.equals("1")) {
             return new Customer();
         } else if (userInput.equalsIgnoreCase("admin") || userInput.equals("2")) {
@@ -17,7 +16,7 @@ public class UserValidator {
         }
     }
 
-    public String validateUserLogin(String userLoginInput) throws ValidationException { // TODO
+    public String validateUserLogin(String userLoginInput) throws ValidationException {
         if (userLoginInput.equals("3") || userLoginInput.equalsIgnoreCase("exit")) {
             return "exit";
         }
