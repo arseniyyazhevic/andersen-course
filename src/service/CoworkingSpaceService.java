@@ -35,7 +35,6 @@ public class CoworkingSpaceService {
     public static void displayAllCoworkingSpaces() {
         ConsoleOutput.println("List of Coworking Spaces: ");
         SortingUtil.sortById(allCoworkingSpaces).forEach((key, value) -> System.out.println(value));
-        allCoworkingSpaces.forEach((key, value)-> System.out.println(value));
     }
 
     public void saveAllCoworkingSpacesToFile(String fileName) {
@@ -44,6 +43,7 @@ public class CoworkingSpaceService {
 
     public void loadCoworkingSpacesFromFile(String fileName) {
         allCoworkingSpaces = FileUtils.loadCoworkingSpacesFromFile(fileName).orElse(new HashMap<>());
+
     }
 
 }

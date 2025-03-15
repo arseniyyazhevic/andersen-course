@@ -4,12 +4,14 @@ import entity.Booking;
 import entity.CoworkingSpace;
 import ui.ConsoleOutput;
 import util.FileUtils;
+import util.SortingUtil;
 
+import java.io.File;
 import java.util.*;
 
 public class BookingService {
     public static HashMap<Integer, Booking> allBookingsByCoworking;
-    public HashMap<Integer, Booking> customerReservations;
+    public HashMap<Integer, Booking> customerReservations = new HashMap<>();
 
     public BookingService() {
     }
@@ -20,8 +22,8 @@ public class BookingService {
     }
 
     public void cancelReservation(int id) { // TODO
-            allBookingsByCoworking.remove(id);
-            customerReservations.remove(id);
+        allBookingsByCoworking.remove(id);
+        customerReservations.remove(id);
     }
 
     public void makeReservation(Booking booking) {
@@ -31,18 +33,12 @@ public class BookingService {
 
     public void viewMyReservations() {
         ConsoleOutput.println("List of Customer Reservations: ");
-        int i = 1;
-        for (Map.Entry<Integer, Booking> entry : customerReservations.entrySet()) {
-            System.out.println(i + ". " + entry.getValue());
-        }
+        SortingUtil.sortBookingsByDate(customerReservations).forEach((key, value) -> ConsoleOutput.println(value.toString()));
     }
 
     public void displayAllBookings() {
         ConsoleOutput.println("List of Bookings: ");
-        int i = 1;
-        for (Map.Entry<Integer, Booking> entry : allBookingsByCoworking.entrySet()) {
-            System.out.println(i + ". " + entry.getValue());
-        }
+        SortingUtil.sortBookingsByDate(allBookingsByCoworking).forEach((key, value) -> ConsoleOutput.println(value.toString()));
     }
 
     public void saveAllBookingsToFile(String fileName) {
