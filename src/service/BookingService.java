@@ -4,27 +4,26 @@ import entity.Booking;
 import entity.CoworkingSpace;
 import ui.ConsoleOutput;
 import util.FileUtils;
+import util.SortingUtil;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.util.*;
 
 public class BookingService {
-    public static HashMap<Integer, Booking> allBookingsByCoworking = new HashMap<>();
+    public static HashMap<Integer, Booking> allBookingsByCoworking;
     public HashMap<Integer, Booking> customerReservations = new HashMap<>();
 
     public BookingService() {
     }
 
 
-    public Booking getBookingById(int id) {
-        return allBookingsByCoworking.get(id);
+    public Optional<Booking> getBookingById(int id) {
+        return Optional.ofNullable(allBookingsByCoworking.get(id));
     }
 
     public void cancelReservation(int id) { // TODO
-            allBookingsByCoworking.remove(id);
-            customerReservations.remove(id);
+        allBookingsByCoworking.remove(id);
+        customerReservations.remove(id);
     }
 
     public void makeReservation(Booking booking) {
@@ -34,18 +33,12 @@ public class BookingService {
 
     public void viewMyReservations() {
         ConsoleOutput.println("List of Customer Reservations: ");
-        int i = 1;
-        for (Map.Entry<Integer, Booking> entry : customerReservations.entrySet()) {
-            System.out.println(i + ". " + entry.getValue());
-        }
+        SortingUtil.sortBookingsByDate(customerReservations).forEach((key, value) -> ConsoleOutput.println(value.toString()));
     }
 
     public void displayAllBookings() {
         ConsoleOutput.println("List of Bookings: ");
-        int i = 1;
-        for (Map.Entry<Integer, Booking> entry : allBookingsByCoworking.entrySet()) {
-            System.out.println(i + ". " + entry.getValue());
-        }
+        SortingUtil.sortBookingsByDate(allBookingsByCoworking).forEach((key, value) -> ConsoleOutput.println(value.toString()));
     }
 
     public void saveAllBookingsToFile(String fileName) {
@@ -53,10 +46,7 @@ public class BookingService {
     }
 
     public void loadBookingFromFile(String fileName) {
-        HashMap<Integer, Booking> input = FileUtils.loadBookingsFromFile(fileName);
-        if(input != null) {
-            allBookingsByCoworking = input;
-        }
+        allBookingsByCoworking = FileUtils.loadBookingsFromFile(fileName).orElse(new HashMap<>());
     }
 
 }

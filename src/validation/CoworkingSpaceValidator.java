@@ -38,11 +38,7 @@ public class CoworkingSpaceValidator extends Validator {
     }
 
     public int validateIdCoworkingSpace(int id) throws ValidationException {
-        CoworkingSpace coworkingSpace = CoworkingSpaceService.getCoworkingSpaceById(id);
-        if (coworkingSpace != null) {
-            return id;
-        } else {
-            throw new ValidationException(", coworking space with this id does not exist");
-        }
+        CoworkingSpaceService.getCoworkingSpaceById(id).orElseThrow(() -> new ValidationException(", coworking space with this id does not exist"));
+        return id;
     }
 }

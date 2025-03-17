@@ -6,6 +6,7 @@ import service.BookingService;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class BookingValidator extends Validator {
     public LocalDate validateDate(String dateStr) throws ValidationException {
@@ -14,6 +15,9 @@ public class BookingValidator extends Validator {
         try {
             userInput = dateStr.split("\\.");
             date = LocalDate.of(Integer.parseInt(userInput[0]), Integer.parseInt(userInput[1]), Integer.parseInt(userInput[2]));
+            if(LocalDate.now().isBefore(date)) {
+                throw new DateTimeException("Date before nowadays");
+            }
             return date;
         } catch (DateTimeException e) {
             throw new ValidationException("(Example:year.month.dayOfMonth)");
@@ -35,11 +39,7 @@ public class BookingValidator extends Validator {
     }
 
     public int validateIdBook(BookingService bookingService, int id) throws ValidationException { // TODO
-        Booking booking = bookingService.getBookingById(id);
-        if (booking != null) {
-            return id;
-        } else {
-            throw new ValidationException(", booking with this id does not exist");
-        }
+        Booking booking = bookingService.getBookingById(id).orElseThrow(() -> new ValidationException(", booking with this id does not exist"));
+        return id;
     }
 }
