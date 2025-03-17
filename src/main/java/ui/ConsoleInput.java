@@ -1,0 +1,166 @@
+package ui;
+
+import entity.roles.User;
+import enums.TypeOfWorkspaces;
+import exception.ValidationException;
+import service.BookingService;
+import validation.BookingValidator;
+import validation.CoworkingSpaceValidator;
+import validation.UserValidator;
+
+import java.time.LocalDate;
+import java.util.Scanner;
+
+public class ConsoleInput {
+    private final Scanner scanner = new Scanner(System.in);
+    private final BookingValidator bookingValidator = new BookingValidator();
+    private final CoworkingSpaceValidator coworkingSpaceValidator = new CoworkingSpaceValidator();
+    private final UserValidator userValidator = new UserValidator();
+
+
+    public String getString(String prompt) {
+        ConsoleOutput.print(prompt);
+        String str = scanner.next();
+        scanner.nextLine();
+        return str;
+    }
+
+    public int getInt(String prompt) {
+        ConsoleOutput.print(prompt);
+        while (!scanner.hasNextInt()) {
+            ConsoleOutput.print("Please enter a number: ");
+            scanner.next();
+        }
+        int number = scanner.nextInt();
+        scanner.nextLine();
+        return number;
+    }
+
+    public String getLine(String prompt) {
+        ConsoleOutput.print(prompt);
+        return scanner.nextLine();
+    }
+
+    public TypeOfWorkspaces getTypeOfCoworkingSpace(String prompt) {
+        while (true) {
+            String strTypeOfWorkspaces = (getLine(prompt));
+            try {
+                return coworkingSpaceValidator.validateTypeOfWorkspaceUserInput(strTypeOfWorkspaces);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+
+    public int getPrice(String prompt) {
+        while (true) {
+            int price = getInt(prompt);
+            try {
+                return coworkingSpaceValidator.validatePriceOfCoworkingFromUser(price);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+
+    public Boolean getAvailableStatus(String prompt) {
+        while (true) {
+            String strAvailableStatus = getString(prompt);
+            try {
+                return coworkingSpaceValidator.validateAvailableStatus(strAvailableStatus);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+
+
+
+    public LocalDate getDate(String prompt) {
+        while (true) {
+            String strLocalDate = getString(prompt);
+            try {
+                return bookingValidator.validateDate(strLocalDate);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+
+    public String getStartAndEndOfBookingTime(String prompt) {
+        while (true) {
+            String startAndEndOfBookingTime = getString(prompt);
+            try {
+                return bookingValidator.validateStartAndEndOfBookingTime(startAndEndOfBookingTime);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+    public int getIdBook(String prompt, BookingService bookingService) {
+        while (true) {
+            int id = getInt(prompt);
+            try {
+                return bookingValidator.validateIdBook(bookingService, id);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+
+    public int getIdCoworkingSpace(String prompt){
+        while (true) {
+            int id = getInt(prompt);
+            try {
+                return coworkingSpaceValidator.validateIdCoworkingSpace(id);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+
+
+    public int getId(String prompt) {
+        while (true) {
+            int id = getInt(prompt);
+            try {
+                return coworkingSpaceValidator.validateId(id);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+
+    public String getName(String prompt) {
+        while (true) {
+            String name = getString(prompt);
+            try {
+                return bookingValidator.validateName(name);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+
+    public User getUserRoleInput(String prompt) {
+        while (true) {
+            String userInput = getString(prompt);
+            try {
+                return userValidator.validateRoleInput(userInput);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+
+    public String getUserLoginInput(String prompt) {
+        while (true) {
+            String userInput = getString(prompt);
+            try {
+                return userValidator.validateUserLogin(userInput);
+            } catch (ValidationException e) {
+                ConsoleOutput.println(e.getMessage());
+            }
+        }
+    }
+}
