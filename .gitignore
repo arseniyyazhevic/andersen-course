@@ -31,3 +31,11 @@ bin/
 ### Mac OS ###
 .DS_Store
 /src/Test.java
+
+### Maven ###
+.class
+.jar
+.pom
+.md5
+.sha1
+
