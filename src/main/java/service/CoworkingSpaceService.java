@@ -3,7 +3,7 @@ package service;
 import entity.CoworkingSpace;
 import ui.ConsoleOutput;
 import util.FileUtils;
-import util.SortingUtil;
+import util.sortingUtils.SortingUtil;
 
 import java.util.HashMap;
 import java.util.Optional;

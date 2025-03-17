@@ -11,8 +11,8 @@ public class CoworkingReservationApp {
     private static final UserService userService = new UserService();
     private static final MenuHandler menuHandler = new MenuHandler(bookingService, coworkingSpaceService, userService, consoleInput);
     public static void main(String[] args) {
-        coworkingSpaceService.loadCoworkingSpacesFromFile("data/coworkingSpaces.bin");
-        bookingService.loadBookingFromFile("data/bookings.bin");
+        coworkingSpaceService.loadCoworkingSpacesFromFile("src/main/resources/data/coworkingSpaces.bin");
+        bookingService.loadBookingFromFile("src/main/resources/data/bookings.bin");
         menuHandler.processingReservationApp();
     }
 }

@@ -3,7 +3,8 @@ package service;
 import entity.Booking;
 import ui.ConsoleOutput;
 import util.FileUtils;
-import util.SortingUtil;
+import util.sortingUtils.BookingDateComparator;
+import util.sortingUtils.SortingUtil;
 
 import java.util.*;
 
@@ -31,12 +32,16 @@ public class BookingService {
 
     public void viewMyReservations() {
         ConsoleOutput.println("List of Customer Reservations: ");
-        SortingUtil.sortBookingsByDate(customerReservations).forEach((key, value) -> ConsoleOutput.println(value.toString()));
+        allBookingsByCoworking.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(new BookingDateComparator()))
+                .forEach(entry -> ConsoleOutput.println(entry.getKey() +" "+ entry.getValue()));
     }
 
     public void displayAllBookings() {
         ConsoleOutput.println("List of Bookings: ");
-        SortingUtil.sortBookingsByDate(allBookingsByCoworking).forEach((key, value) -> ConsoleOutput.println(value.toString()));
+        allBookingsByCoworking.entrySet().stream().
+                sorted(Map.Entry.comparingByValue(new BookingDateComparator())).
+                forEach(entry -> ConsoleOutput.println(entry.getKey() +" "+ entry.getValue()));
     }
 
     public void saveAllBookingsToFile(String fileName) {

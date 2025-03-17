@@ -14,7 +14,7 @@ public class BookingValidator extends Validator {
         try {
             userInput = dateStr.split("\\.");
             date = LocalDate.of(Integer.parseInt(userInput[0]), Integer.parseInt(userInput[1]), Integer.parseInt(userInput[2]));
-            if(LocalDate.now().isBefore(date)) {
+            if(LocalDate.now().isAfter(date)) {
                 throw new DateTimeException("Date before nowadays");
             }
             return date;
