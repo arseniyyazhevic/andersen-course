@@ -13,7 +13,7 @@ public class Booking implements Serializable {
     private final Integer id;
     private String customerName;
     private String startAndEndOfBookingTime;
-
+    private final CoworkingSpaceService coworkingSpaceService = new CoworkingSpaceService();
     private LocalDate date;
 
     private Integer idOfCoworkingSpace;
@@ -73,6 +73,6 @@ public class Booking implements Serializable {
                 ", typeOfWorkspaces=" + date +
                 ", price=" + startAndEndOfBookingTime +
                 ", idOfCoworkingSpace=" + idOfCoworkingSpace +
-                ", nameOfCoworkingSpace=" + CoworkingSpaceService.getCoworkingSpaceById(idOfCoworkingSpace).orElseThrow().getName();
+                ", nameOfCoworkingSpace=" + coworkingSpaceService.getCoworkingSpaceById(idOfCoworkingSpace).orElseThrow().getName();
     }
 }
