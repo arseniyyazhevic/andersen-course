@@ -4,10 +4,12 @@ import entity.roles.User;
 import enums.TypeOfWorkspaces;
 import exception.ValidationException;
 import service.BookingService;
+import service.CoworkingSpaceService;
 import validation.BookingValidator;
 import validation.CoworkingSpaceValidator;
 import validation.UserValidator;
 
+import java.security.cert.CertPath;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -15,6 +17,7 @@ public class ConsoleInput {
     private final Scanner scanner = new Scanner(System.in);
     private final BookingValidator bookingValidator = new BookingValidator();
     private final CoworkingSpaceValidator coworkingSpaceValidator = new CoworkingSpaceValidator();
+    private final CoworkingSpaceService coworkingSpaceService = new CoworkingSpaceService();
     private final UserValidator userValidator = new UserValidator();
 
 
@@ -112,7 +115,7 @@ public class ConsoleInput {
         while (true) {
             int id = getInt(prompt);
             try {
-                return coworkingSpaceValidator.validateIdCoworkingSpace(id);
+                return coworkingSpaceValidator.validateIdCoworkingSpace(id, coworkingSpaceService);
             } catch (ValidationException e) {
                 ConsoleOutput.println(e.getMessage());
             }

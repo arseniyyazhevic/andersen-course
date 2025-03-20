@@ -9,7 +9,7 @@ import ui.ConsoleOutput;
 import java.util.HashSet;
 
 public class UserService {
-    public static HashSet<User> allUsers = new HashSet<>();
+//    public static HashSet<User> allUsers = new HashSet<>();
 
     public User createUser(User userRole) {
         if (userRole instanceof Admin) {

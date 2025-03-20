@@ -4,13 +4,13 @@ import entity.Booking;
 import ui.ConsoleOutput;
 import util.FileUtils;
 import util.sortingUtils.BookingDateComparator;
-import util.sortingUtils.SortingUtil;
 
 import java.util.*;
 
 public class BookingService {
-    public static HashMap<Integer, Booking> allBookingsByCoworking;
     public HashMap<Integer, Booking> customerReservations = new HashMap<>();
+    public static HashMap<Integer, Booking> allBookingsByCoworking = new HashMap<>();
+
 
     public BookingService() {
     }
