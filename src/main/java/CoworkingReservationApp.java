@@ -3,6 +3,12 @@ import service.CoworkingSpaceService;
 import service.UserService;
 import ui.ConsoleInput;
 import ui.MenuHandler;
+import util.DBUtils;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class CoworkingReservationApp {
     private static final ConsoleInput consoleInput = new ConsoleInput();
@@ -10,9 +16,8 @@ public class CoworkingReservationApp {
     private static final CoworkingSpaceService coworkingSpaceService = new CoworkingSpaceService();
     private static final UserService userService = new UserService();
     private static final MenuHandler menuHandler = new MenuHandler(bookingService, coworkingSpaceService, userService, consoleInput);
-    public static void main(String[] args) {
-        coworkingSpaceService.loadCoworkingSpacesFromFile("src/main/resources/data/coworkingSpaces.bin");
-        bookingService.loadBookingFromFile("src/main/resources/data/bookings.bin");
+
+    public static void main(String[] args){
         menuHandler.processingReservationApp();
     }
 }

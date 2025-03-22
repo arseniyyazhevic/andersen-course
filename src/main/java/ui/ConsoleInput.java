@@ -133,7 +133,7 @@ public class ConsoleInput {
 
     public String getName(String prompt) {
         while (true) {
-            String name = getString(prompt);
+            String name = getLine(prompt);
             try {
                 return bookingValidator.validateName(name);
             } catch (ValidationException e) {
