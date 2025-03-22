@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import validation.BookingValidator;
 import validation.CoworkingSpaceValidator;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CoworkingSpaceValidatorTest {
@@ -18,5 +19,10 @@ public class CoworkingSpaceValidatorTest {
     void getValidatePrice_notCorrectInput_throwValidationException(){
 
         assertThrows(ValidationException.class, () -> coworkingSpaceValidator.validatePriceOfCoworkingFromUser(1));
+    }
+
+    @Test
+    void getValidatePrice_correctInput_notThrowValidationException(){
+        assertDoesNotThrow(() -> coworkingSpaceValidator.validatePriceOfCoworkingFromUser(12));
     }
 }

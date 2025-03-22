@@ -26,4 +26,11 @@ class CoworkingSpaceServiceTest {
         assertFalse(coworkingSpace.isPresent());
     }
 
+    @Test
+    void getCoworkingSpaceById_FoundInMap_coworkingSpaceFromFIle(){
+        Optional<CoworkingSpace> booking = coworkingSpaceService.getCoworkingSpaceById(1);
+
+        assertTrue(booking.isPresent());
+    }
+
 }

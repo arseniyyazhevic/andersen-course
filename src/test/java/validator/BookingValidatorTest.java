@@ -8,8 +8,7 @@ import validation.BookingValidator;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BookingValidatorTest {
     private BookingValidator bookingValidator;
@@ -21,5 +20,9 @@ public class BookingValidatorTest {
     void getValidateDate_notCorrectInput_throwValidationException(){
 
         assertThrows(ValidationException.class, () -> bookingValidator.validateDate("121.2121.21212.2112"));
+    }
+    @Test
+    void getValidateDate_correctInput_notThrowValidationException(){
+        assertDoesNotThrow(() -> bookingValidator.validateDate("2025.03.30"));
     }
 }

@@ -9,14 +9,16 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class CoworkingSpaceService {
+    public static final String fileOfCoworkingSpacesPath = "src/main/resources/data/bookings.bin";
 
     public static HashMap<Integer, CoworkingSpace> allCoworkingSpaces = new HashMap<>();
 
 
     public CoworkingSpaceService() {
+        loadCoworkingSpacesFromFile("src/main/resources/data/coworkingSpaces.bin");
     }
 
-    public Optional<CoworkingSpace> getCoworkingSpaceById(int id) {
+    public static Optional<CoworkingSpace> getCoworkingSpaceById(int id) {
        return Optional.ofNullable(allCoworkingSpaces.get(id));
     }
 
