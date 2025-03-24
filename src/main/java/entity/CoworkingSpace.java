@@ -1,6 +1,7 @@
 package entity;
 
 import enums.TypeOfWorkspaces;
+import util.DBUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -8,7 +9,7 @@ import java.io.Serializable;
 public class CoworkingSpace implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    private static Integer nextId = 1;
+    private static Integer nextId = DBUtils.getMaxIdFromCoworkingSpaces() + 1;
 
     private final int id;
 

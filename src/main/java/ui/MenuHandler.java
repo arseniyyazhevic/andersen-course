@@ -30,7 +30,6 @@ public class MenuHandler {
         ConsoleOutput.println("Welcome to Coworking Space Reservation App – Your Gateway to Productive Workspaces!");
         User user = userService.getUserAndSetLogin(consoleInput);
         if (user == null) {
-            saveDataToFile();
             System.exit(0);
         }
         Menu menu = createMenu(user);
@@ -52,7 +51,6 @@ public class MenuHandler {
 
     public void handlingUserInputInCustomerMenu(CustomerMenu menu) {
         while (true) {
-            saveDataToFile();
             menu.showMenu();
             switch (consoleInput.getString("Make your choice: ")) {
                 case "1" -> CoworkingSpaceService.displayAllCoworkingSpaces();
@@ -70,7 +68,6 @@ public class MenuHandler {
 
     public void handlingUserInputInAdminMenu(AdminMenu menu) {
         while (true) {
-            saveDataToFile();
             menu.showMenu();
             switch (consoleInput.getString("")) {
                 case "1" -> coworkingSpaceService.addCoworkingSpace(createCoworkingSpace());
@@ -112,4 +109,6 @@ public class MenuHandler {
         coworkingSpaceService.saveAllCoworkingSpacesToFile("src/main/resources/data/coworkingSpaces.bin");
         bookingService.saveAllBookingsToFile("src/main/resources/data/bookings.bin");
     }
+
+
 }

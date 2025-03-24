@@ -1,6 +1,9 @@
 package util;
 
 import entity.Booking;
+import entity.CoworkingSpace;
+import enums.TypeOfWorkspaces;
+import service.BookingService;
 import ui.ConsoleOutput;
 
 import java.io.IOException;
@@ -16,7 +19,7 @@ public class BookingDBUtils {
             preparedStatement.setDate(3, Date.valueOf(booking.getDate()));
             preparedStatement.setString(4, booking.getStartAndEndOfBookingTime());
             preparedStatement.setInt(5, booking.getIdOfCoworkingSpace());
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             ConsoleOutput.println("SQL Error: could not enter bookings data into the database");
             e.printStackTrace();
@@ -40,7 +43,7 @@ public class BookingDBUtils {
             preparedStatement.setString(3, booking.getStartAndEndOfBookingTime());
             preparedStatement.setInt(4, booking.getIdOfCoworkingSpace());
             preparedStatement.setInt(5, id);
-            preparedStatement.executeQuery();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             ConsoleOutput.println("SQL Error: could not enter bookings data into the database");
             e.printStackTrace();
@@ -99,6 +102,32 @@ public class BookingDBUtils {
         } catch (ClassNotFoundException e) {
             ConsoleOutput.println("Error: PostgreSQL driver not found");
             e.printStackTrace();
+        }
+    }
+
+    public static Booking getBooking(int id) {
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM public.bookings WHERE id = ?")) {
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            return new Booking(
+                    rs.getString("customer_name"),
+                    rs.getString("time_interval"),
+                    rs.getDate("date").toLocalDate(),
+                    rs.getInt("coworking_space_id")
+            );
+        } catch (SQLException e) {
+            ConsoleOutput.println("SQL Error: could not enter coworking space data into the database");
+            e.printStackTrace();
+            System.err.println("SQLException: " + e.getMessage());
+        } catch (IOException e) {
+            ConsoleOutput.println("IO Error: could not load properties file");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            ConsoleOutput.println("Error: PostgreSQL driver not found");
+            e.printStackTrace();
+        } finally {
+            return null;
         }
     }
 

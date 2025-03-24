@@ -1,3 +1,4 @@
+import enums.TypeOfWorkspaces;
 import service.BookingService;
 import service.CoworkingSpaceService;
 import service.UserService;
@@ -6,9 +7,7 @@ import ui.MenuHandler;
 import util.DBUtils;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class CoworkingReservationApp {
     private static final ConsoleInput consoleInput = new ConsoleInput();
@@ -17,7 +16,10 @@ public class CoworkingReservationApp {
     private static final UserService userService = new UserService();
     private static final MenuHandler menuHandler = new MenuHandler(bookingService, coworkingSpaceService, userService, consoleInput);
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
+        bookingService.loadBookingsFromDB();
+        coworkingSpaceService.loadCoworkingSpacesFromDB();
         menuHandler.processingReservationApp();
+        }
     }
-}
+

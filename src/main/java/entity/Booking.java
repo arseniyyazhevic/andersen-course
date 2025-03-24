@@ -1,15 +1,17 @@
 package entity;
 
 import service.CoworkingSpaceService;
+import util.DBUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Booking implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-    private static Integer nextId = 1;
+    private static Integer nextId = DBUtils.getMaxIdFromBookings() + 1;
     private final Integer id;
     private String customerName;
     private String startAndEndOfBookingTime;
