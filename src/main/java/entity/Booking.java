@@ -68,13 +68,4 @@ public class Booking implements Serializable {
         this.idOfCoworkingSpace = idOfCoworkingSpace;
     }
 
-    @Override
-    public String toString() {
-        return "id=" + id +
-                ". " + customerName +
-                ", typeOfWorkspaces=" + date +
-                ", price=" + startAndEndOfBookingTime +
-                ", idOfCoworkingSpace=" + idOfCoworkingSpace +
-                ", nameOfCoworkingSpace=" + CoworkingSpaceService.getCoworkingSpaceById(idOfCoworkingSpace).orElseThrow().getName();
-    }
 }

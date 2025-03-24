@@ -16,7 +16,7 @@ public class CoworkingSpaceService {
     public CoworkingSpaceService() {
     }
 
-    public static Optional<CoworkingSpace> getCoworkingSpaceById(int id) {
+    public Optional<CoworkingSpace> getCoworkingSpaceById(int id) {
        return Optional.ofNullable(CoworkingSpaceDBUtils.getCoworkingSpace(id));
     }
 

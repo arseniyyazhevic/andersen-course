@@ -3,11 +3,19 @@ package validation;
 import entity.Booking;
 import exception.ValidationException;
 import service.BookingService;
+import service.UserService;
 
 import java.time.DateTimeException;
 import java.time.LocalDate;
 
 public class BookingValidator extends Validator {
+
+    private final BookingService bookingService;
+
+
+    public BookingValidator(BookingService bookingService) {
+        this.bookingService = bookingService;
+    }
     public LocalDate validateDate(String dateStr) throws ValidationException {
         LocalDate date = null;
         String[] userInput;
@@ -37,7 +45,7 @@ public class BookingValidator extends Validator {
         }
     }
 
-    public int validateIdBook(BookingService bookingService, int id) throws ValidationException { // TODO
+    public int validateIdBook(int id) throws ValidationException {
         Booking booking = bookingService.getBookingById(id).orElseThrow(() -> new ValidationException(", booking with this id does not exist"));
         return id;
     }
