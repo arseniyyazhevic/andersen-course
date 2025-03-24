@@ -25,11 +25,11 @@ public class Booking implements Serializable {
         this.startAndEndOfBookingTime = startAndEndOfBookingTime;
         this.date = date;
         this.idOfCoworkingSpace = idOfCoworkingSpace;
-        this.id = nextId++;
+        this.id = nextId;
     }
 
     public Booking() {
-        this.id = nextId++;
+        this.id = nextId;
     }
 
     public String getCustomerName() {

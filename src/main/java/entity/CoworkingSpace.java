@@ -25,11 +25,11 @@ public class CoworkingSpace implements Serializable {
         this.typeOfWorkspaces = typeOfWorkspaces;
         this.priceInDollars = priceInDollars;
         this.availabilityStatus = availabilityStatus;
-        this.id = nextId++;
+        this.id = nextId;
     }
 
     public CoworkingSpace() {
-        this.id = nextId++;
+        this.id = nextId;
     }
 
     public TypeOfWorkspaces getTypeOfWorkspaces() {
