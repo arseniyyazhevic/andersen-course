@@ -21,7 +21,7 @@ public class BookingService {
         return Optional.ofNullable(BookingDBUtils.getBooking(id));
     }
 
-    public void cancelReservation(int id) { // TODO
+    public void cancelReservation(int id) {
         allBookingsByCoworking.remove(id);
         customerReservations.remove(id);
         BookingDBUtils.deleteBooking(id);

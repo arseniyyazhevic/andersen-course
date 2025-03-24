@@ -57,7 +57,7 @@ public class MenuHandler {
                 case "2" -> bookingService.makeReservation(createBookingUsingUserInput());
                 case "3" -> {
                     bookingService.viewMyReservations();
-                    bookingService.cancelReservation(consoleInput.getIdBook("Enter an id", bookingService));
+                    bookingService.cancelReservation(consoleInput.getIdBook("Enter an id: ", bookingService));
                 }
                 case "4" -> bookingService.viewMyReservations();
                 case "5" -> processingReservationApp();
@@ -75,8 +75,10 @@ public class MenuHandler {
                     CoworkingSpaceService.displayAllCoworkingSpaces();
                     coworkingSpaceService.removeCoworkingSpace(consoleInput.getIdCoworkingSpace("Enter and id: "));
                 }
-                case "3" ->
-                        coworkingSpaceService.updateAllInformationAboutCoworkingSpace(consoleInput.getId("Enter an id to delete: "), createCoworkingSpace());
+                case "3" -> {
+                    CoworkingSpaceService.displayAllCoworkingSpaces();
+                    coworkingSpaceService.updateAllInformationAboutCoworkingSpace(consoleInput.getId("Enter an id to update: "), createCoworkingSpace());
+                }
                 case "4" -> bookingService.displayAllBookings();
                 case "5" -> processingReservationApp();
                 default -> System.out.println("Incorrect input");

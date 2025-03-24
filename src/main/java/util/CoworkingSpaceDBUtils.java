@@ -111,6 +111,7 @@ public class CoworkingSpaceDBUtils {
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM public.coworking_spaces WHERE id = ?")) {
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
+            rs.next();
             return new CoworkingSpace(
                     rs.getString("name"),
                     TypeOfWorkspaces.getTypeOfWorkspaceFromUserInput(rs.getString("type_of_workspace")),
@@ -127,8 +128,7 @@ public class CoworkingSpaceDBUtils {
         } catch (ClassNotFoundException e) {
             ConsoleOutput.println("Error: PostgreSQL driver not found");
             e.printStackTrace();
-        } finally {
-            return null;
         }
+        return null;
     }
 }
