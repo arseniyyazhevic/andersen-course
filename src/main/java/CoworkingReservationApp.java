@@ -16,7 +16,7 @@ public class CoworkingReservationApp {
     private static final UserService userService = new UserService();
     private static final MenuHandler menuHandler = new MenuHandler(bookingService, coworkingSpaceService, userService, consoleInput);
 
-    public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
+    public static void main(String[] args){
         bookingService.loadBookingsFromDB();
         coworkingSpaceService.loadCoworkingSpacesFromDB();
         menuHandler.processingReservationApp();
