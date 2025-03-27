@@ -13,7 +13,6 @@ public class Booking implements Serializable {
     private final Integer id;
     private String customerName;
     private String startAndEndOfBookingTime;
-
     private LocalDate date;
 
     private Integer idOfCoworkingSpace;

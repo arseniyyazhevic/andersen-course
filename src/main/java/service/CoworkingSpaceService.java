@@ -9,9 +9,13 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class CoworkingSpaceService {
-    public static HashMap<Integer, CoworkingSpace> allCoworkingSpaces;
+    public static final String fileOfCoworkingSpacesPath = "src/main/resources/data/bookings.bin";
+
+    public static HashMap<Integer, CoworkingSpace> allCoworkingSpaces = new HashMap<>();
+
 
     public CoworkingSpaceService() {
+        loadCoworkingSpacesFromFile("src/main/resources/data/coworkingSpaces.bin");
     }
 
     public static Optional<CoworkingSpace> getCoworkingSpaceById(int id) {
