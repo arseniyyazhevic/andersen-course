@@ -107,10 +107,5 @@ public class MenuHandler {
         return coworkingSpace;
     }
 
-    private void saveDataToFile() {
-        coworkingSpaceService.saveAllCoworkingSpacesToFile("src/main/resources/data/coworkingSpaces.bin");
-        bookingService.saveAllBookingsToFile("src/main/resources/data/bookings.bin");
-    }
-
 
 }

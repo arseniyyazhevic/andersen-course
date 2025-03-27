@@ -10,8 +10,6 @@ import util.sortingUtils.BookingDateComparator;
 import java.util.*;
 
 public class BookingService {
-    public static HashMap<Integer, Booking> allBookingsByCoworking;
-    public HashMap<Integer, Booking> customerReservations = new HashMap<>();
 
     public BookingService() {
     }
@@ -22,14 +20,10 @@ public class BookingService {
     }
 
     public void cancelReservation(int id) {
-        allBookingsByCoworking.remove(id);
-        customerReservations.remove(id);
         BookingDBUtils.deleteBooking(id);
     }
 
     public void makeReservation(Booking booking) {
-        allBookingsByCoworking.put(booking.getId(), booking);
-        customerReservations.put(booking.getId(), booking);
         BookingDBUtils.createBooking(booking);
     }
 
@@ -49,16 +43,8 @@ public class BookingService {
         BookingDBUtils.readBookings();
     }
 
-    public void saveAllBookingsToFile(String fileName) {
-        FileUtils.saveBookingsToFile(fileName, allBookingsByCoworking);
-    }
-
-    public void loadBookingsFromFile(String fileName) {
-        allBookingsByCoworking = FileUtils.loadBookingsFromFile(fileName).orElse(new HashMap<>());
-    }
-
-    public void loadBookingsFromDB() {
-        allBookingsByCoworking = DBUtils.loadBookingsFromDB().orElse(new HashMap<>());
+    public HashMap<Long, Booking> loadBookingsFromDB() {
+        return DBUtils.loadBookingsFromDB().orElse(new HashMap<>());
     }
 
 }

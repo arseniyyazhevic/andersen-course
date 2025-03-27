@@ -16,8 +16,8 @@ import java.util.Properties;
 public class DBUtils {
     private static final String PROPERTIES_OF_DB_CONNECTION_PATH = "src/main/resources/database.properties";
 
-    public static Optional<HashMap<Integer, CoworkingSpace>> loadCoworkingSpacesFromDB() {
-        HashMap<Integer, CoworkingSpace> dbDataCoworkingSpaces = new HashMap<>();
+    public static Optional<HashMap<Long, CoworkingSpace>> loadCoworkingSpacesFromDB() {
+        HashMap<Long, CoworkingSpace> dbDataCoworkingSpaces = new HashMap<>();
         try (Connection connection = getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM public.coworking_spaces");
@@ -28,7 +28,7 @@ public class DBUtils {
                         rs.getInt("price_dollars"),
                         rs.getBoolean("availability_status")
                 );
-                dbDataCoworkingSpaces.put(rs.getInt("id"), coworkingSpace);
+                dbDataCoworkingSpaces.put(rs.getLong("id"), coworkingSpace);
             }
             statement.close();
             rs.close();
@@ -40,8 +40,8 @@ public class DBUtils {
 
     }
 
-    public static Optional<HashMap<Integer, Booking>> loadBookingsFromDB() {
-        HashMap<Integer, Booking> dbDataBookings = new HashMap<>();
+    public static Optional<HashMap<Long, Booking>> loadBookingsFromDB() {
+        HashMap<Long, Booking> dbDataBookings = new HashMap<>();
         try (Connection connection = getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM public.bookings");
@@ -49,10 +49,10 @@ public class DBUtils {
                 Booking booking = new Booking(
                         rs.getString("customer_name"),
                         rs.getString("time_interval"),
-                        rs.getDate("date").toLocalDate(),
+                        rs.getDate("booking_date").toLocalDate(),
                         rs.getInt("coworking_space_id")
                 );
-                dbDataBookings.put(rs.getInt("id"), booking);
+                dbDataBookings.put(rs.getLong("id"), booking);
             }
             statement.close();
             rs.close();

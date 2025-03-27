@@ -1,5 +1,6 @@
 CREATE TABLE IF NOT EXISTS public.bookings
 (
+
     customer_name character varying(100) COLLATE pg_catalog."default" NOT NULL,
     date date NOT NULL,
     time_interval character varying(20) COLLATE pg_catalog."default" NOT NULL,
@@ -8,8 +9,6 @@ CREATE TABLE IF NOT EXISTS public.bookings
     CONSTRAINT bookings_pkey PRIMARY KEY (id),
     CONSTRAINT coworking_space_fk FOREIGN KEY (coworking_space_id)
         REFERENCES public.coworking_spaces (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
 );
 
 

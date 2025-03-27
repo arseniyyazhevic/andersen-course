@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class CoworkingSpaceService {
-    public static HashMap<Integer, CoworkingSpace> allCoworkingSpaces;
-
     public CoworkingSpaceService() {
     }
 
@@ -21,17 +19,14 @@ public class CoworkingSpaceService {
     }
 
     public void addCoworkingSpace(CoworkingSpace coworkingSpace) {
-        allCoworkingSpaces.put(coworkingSpace.getId(), coworkingSpace);
         CoworkingSpaceDBUtils.createCoworkingSpace(coworkingSpace);
     }
 
     public void updateAllInformationAboutCoworkingSpace(int id, CoworkingSpace coworkingSpace) {
-        allCoworkingSpaces.put(id, coworkingSpace);
         CoworkingSpaceDBUtils.updateCoworkingSpace(id, coworkingSpace);
     }
 
     public void removeCoworkingSpace(int id) {
-        allCoworkingSpaces.remove(id);
         CoworkingSpaceDBUtils.deleteCoworkingSpace(id);
     }
 
@@ -41,16 +36,8 @@ public class CoworkingSpaceService {
         CoworkingSpaceDBUtils.readCoworkingSpaces();
     }
 
-    public void saveAllCoworkingSpacesToFile(String fileName) {
-        FileUtils.saveCoworkingSpacesToFile(fileName, allCoworkingSpaces);
-    }
-
-    public void loadCoworkingSpacesFromDB(String fileName) {
-        allCoworkingSpaces = FileUtils.loadCoworkingSpacesFromFile(fileName).orElse(new HashMap<>());
-    }
-
-    public void loadCoworkingSpacesFromDB() {
-        allCoworkingSpaces = DBUtils.loadCoworkingSpacesFromDB().orElse(new HashMap<>());
+    public HashMap<Long, CoworkingSpace>  loadCoworkingSpacesFromDB() {
+        return DBUtils.loadCoworkingSpacesFromDB().orElse(new HashMap<>());
     }
 
 }

@@ -13,8 +13,8 @@ public class BookingDBUtils {
     public static void createBooking(Booking booking) {
         try (Connection connection = DBUtils.getConnection();
              PreparedStatement preparedStatement = connection.
-                     prepareStatement("INSERT INTO public.bookings (id, customer_name, date, time_interval, coworking_space_id) VALUES (?, ?, ?, ?, ?)")) {
-            preparedStatement.setInt(1, booking.getId());
+                     prepareStatement("INSERT INTO public.bookings (id, customer_name, booking_date, time_interval, coworking_space_id) VALUES (?, ?, ?, ?, ?)")) {
+            preparedStatement.setLong(1, booking.getId());
             preparedStatement.setString(2, booking.getCustomerName());
             preparedStatement.setDate(3, Date.valueOf(booking.getDate()));
             preparedStatement.setString(4, booking.getStartAndEndOfBookingTime());
@@ -37,7 +37,7 @@ public class BookingDBUtils {
     public static void updateBooking(int id, Booking booking) {
         try (Connection connection = DBUtils.getConnection();
              PreparedStatement preparedStatement = connection.
-                     prepareStatement("UPDATE public.bookings SET customer_name = ?, date = ?, time_interval = ?, coworking_space_id = ? WHERE id = ?")) {
+                     prepareStatement("UPDATE public.bookings SET customer_name = ?, booking_date = ?, time_interval = ?, coworking_space_id = ? WHERE id = ?")) {
             preparedStatement.setString(1, booking.getCustomerName());
             preparedStatement.setDate(2, Date.valueOf(booking.getDate()));
             preparedStatement.setString(3, booking.getStartAndEndOfBookingTime());
@@ -86,7 +86,7 @@ public class BookingDBUtils {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String customerName = rs.getString("customer_name");
-                Date date = rs.getDate("date");
+                Date date = rs.getDate("booking_date");
                 String timeInterval = rs.getString("time_interval");
                 int coworkingSpaceId = rs.getInt("coworking_space_id");
 
@@ -115,7 +115,7 @@ public class BookingDBUtils {
             return new Booking(
                     rs.getString("customer_name"),
                     rs.getString("time_interval"),
-                    rs.getDate("date").toLocalDate(),
+                    rs.getDate("booking_date").toLocalDate(),
                     rs.getInt("coworking_space_id")
             );
         } catch (SQLException e) {

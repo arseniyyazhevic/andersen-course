@@ -13,7 +13,7 @@ public class CoworkingSpaceDBUtils {
         try (Connection connection = DBUtils.getConnection();
              PreparedStatement preparedStatement = connection.
                      prepareStatement("INSERT INTO public.coworking_spaces (id, name, type_of_workspace, price_dollars, availability_status) VALUES (?, ?, ?, ?, ?)")) {
-            preparedStatement.setInt(1, coworkingSpace.getId());
+            preparedStatement.setLong(1, coworkingSpace.getId());
             preparedStatement.setString(2, coworkingSpace.getName());
             preparedStatement.setString(3, TypeOfWorkspaces.getStringFromTypeOfWorkspace(coworkingSpace.getTypeOfWorkspaces()));
             preparedStatement.setInt(4, coworkingSpace.getPriceInDollars());
