@@ -47,6 +47,17 @@ public class ConsoleInput {
         return number;
     }
 
+    public Long getLong(String prompt) {
+        ConsoleOutput.print(prompt);
+        while (!scanner.hasNextLong()) {
+            ConsoleOutput.print("Please enter a number: ");
+            scanner.next();
+        }
+        Long number = scanner.nextLong();
+        scanner.nextLine();
+        return number;
+    }
+
     public String getLine(String prompt) {
         ConsoleOutput.print(prompt);
         return scanner.nextLine();
@@ -108,9 +119,9 @@ public class ConsoleInput {
             }
         }
     }
-    public int getIdBook(String prompt, BookingService bookingService) {
+    public Long getIdBook(String prompt) {
         while (true) {
-            int id = getInt(prompt);
+            Long id = getLong(prompt);
             try {
                 return bookingValidator.validateIdBook(id);
             } catch (ValidationException e) {
@@ -119,11 +130,11 @@ public class ConsoleInput {
         }
     }
 
-    public int getIdCoworkingSpace(String prompt){
+    public Long getIdCoworkingSpace(String prompt){
         while (true) {
-            int id = getInt(prompt);
+            Long id = getLong(prompt);
             try {
-                return coworkingSpaceValidator.validateIdCoworkingSpace(id, coworkingSpaceService);
+                return coworkingSpaceValidator.validateIdCoworkingSpace(id);
             } catch (ValidationException e) {
                 ConsoleOutput.println(e.getMessage());
             }
@@ -131,9 +142,9 @@ public class ConsoleInput {
     }
 
 
-    public int getId(String prompt) {
+    public Long getId(String prompt) {
         while (true) {
-            int id = getInt(prompt);
+            Long id = getLong(prompt);
             try {
                 return coworkingSpaceValidator.validateId(id);
             } catch (ValidationException e) {

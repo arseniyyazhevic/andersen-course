@@ -1,9 +1,6 @@
 package entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,23 +15,24 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @Entity
+@Table(name = "bookings")
 public class Booking implements Serializable {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @Column()
+    @Column(name = "customer_name")
     private String customerName;
 
-    @Column
+    @Column(name = "time_interval")
     private String startAndEndOfBookingTime;
 
-    @Column
+    @Column(name = "booking_date")
     private LocalDate date;
 
-    @Column()
-    private Integer idOfCoworkingSpace;
+    @Column(name = "coworking_space_id")
+    private Long idOfCoworkingSpace;
 
 
     public Booking(String customerName, String timeInterval, LocalDate date, int coworkingSpaceId) { //TODO

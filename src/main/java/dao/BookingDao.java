@@ -3,6 +3,7 @@ package dao;
 import entity.Booking;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import util.HibernateUtils;
 
 import java.util.List;
@@ -36,11 +37,20 @@ public class BookingDao {
     }
 
     // Update User
-    public void updateBooking(Booking booking) {
+    public void updateBooking(Booking booking, Long id) {
         Transaction transaction = null;
         try (Session session = HibernateUtils.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.merge(booking);
+
+            String hql = "UPDATE Booking b SET b.customerName = :name, b.date = :date, b.startAndEndOfBookingTime = :timeInterval, b.idOfCoworkingSpace = :coworkingId WHERE b.id = :id";
+            Query<Booking> query = session.createQuery(hql, Booking.class);
+            query.setParameter("name", booking.getCustomerName());
+            query.setParameter("date", booking.getDate());
+            query.setParameter("timeInterval ", booking.getStartAndEndOfBookingTime());
+            query.setParameter("coworkingId", booking.getIdOfCoworkingSpace());
+            query.setParameter("id", id);
+            query.executeUpdate();
+
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -58,7 +68,7 @@ public class BookingDao {
             Booking booking = session.get(Booking.class, id);
             if (booking != null) {
                 session.remove(booking);
-                System.out.println("User deleted successfully!");
+                System.out.println("Booking deleted successfully!");
             }
             transaction.commit();
         } catch (Exception e) {
@@ -68,5 +78,4 @@ public class BookingDao {
             e.printStackTrace();
         }
     }
-}
 }

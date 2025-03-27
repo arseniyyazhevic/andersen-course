@@ -1,10 +1,7 @@
 package entity;
 
 import enums.TypeOfWorkspaces;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +12,7 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @Entity
+@Table(name = "coworking_spaces")
 public class CoworkingSpace implements Serializable {
 
     private static Integer nextId = DBUtils.getMaxIdFromCoworkingSpaces() + 1;
@@ -23,16 +21,16 @@ public class CoworkingSpace implements Serializable {
     @GeneratedValue
     private Long id;
 
-    @Column
+    @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "type_of_workspace")
     private TypeOfWorkspaces typeOfWorkspaces;
 
-    @Column
+    @Column(name = "price_in_dollars")
     private Integer priceInDollars;
 
-    @Column
+    @Column(name = "availability_status")
     private boolean availabilityStatus;
 
 

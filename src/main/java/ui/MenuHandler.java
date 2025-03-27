@@ -57,7 +57,7 @@ public class MenuHandler {
                 case "2" -> bookingService.makeReservation(createBookingUsingUserInput());
                 case "3" -> {
                     bookingService.viewMyReservations();
-                    bookingService.cancelReservation(consoleInput.getIdBook("Enter an id: ", bookingService));
+                    bookingService.cancelReservation(consoleInput.getIdBook("Enter an id: "));
                 }
                 case "4" -> bookingService.viewMyReservations();
                 case "5" -> processingReservationApp();
