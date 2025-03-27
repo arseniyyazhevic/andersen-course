@@ -17,4 +17,14 @@ public enum TypeOfWorkspaces {
         };
     }
 
+    public static String getStringFromTypeOfWorkspace(TypeOfWorkspaces typeOfWorkspaces) {
+        return switch (typeOfWorkspaces) {
+            case PRIVATE -> "private";
+            case OPEN_SPACE -> "open space";
+            case ROOM -> "room";
+            case MEETING_ROOM -> "meeting room";
+        };
+    }
+
+
 }

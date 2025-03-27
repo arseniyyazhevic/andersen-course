@@ -7,6 +7,13 @@ import service.CoworkingSpaceService;
 
 public class CoworkingSpaceValidator extends Validator {
 
+    private final CoworkingSpaceService coworkingSpaceService;
+
+
+    public CoworkingSpaceValidator(CoworkingSpaceService coworkingSpaceService){
+        this.coworkingSpaceService = coworkingSpaceService;
+    }
+  
     public Integer validatePriceOfCoworkingFromUser(int price) throws ValidationException {
         if (price > 10) {
             return price;
@@ -36,7 +43,7 @@ public class CoworkingSpaceValidator extends Validator {
         }
     }
 
-    public int validateIdCoworkingSpace(int id, CoworkingSpaceService coworkingSpaceService) throws ValidationException {
+    public int validateIdCoworkingSpace(int id) throws ValidationException {
         coworkingSpaceService.getCoworkingSpaceById(id).orElseThrow(() -> new ValidationException(", coworking space with this id does not exist"));
         return id;
     }

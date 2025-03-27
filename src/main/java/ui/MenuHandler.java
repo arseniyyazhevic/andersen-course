@@ -30,7 +30,6 @@ public class MenuHandler {
         ConsoleOutput.println("Welcome to Coworking Space Reservation App – Your Gateway to Productive Workspaces!");
         User user = userService.getUserAndSetLogin(consoleInput);
         if (user == null) {
-            saveDataToFile();
             System.exit(0);
         }
         Menu menu = createMenu(user);
@@ -52,14 +51,13 @@ public class MenuHandler {
 
     public void handlingUserInputInCustomerMenu(CustomerMenu menu) {
         while (true) {
-            saveDataToFile();
             menu.showMenu();
             switch (consoleInput.getString("Make your choice: ")) {
                 case "1" -> CoworkingSpaceService.displayAllCoworkingSpaces();
                 case "2" -> bookingService.makeReservation(createBookingUsingUserInput());
                 case "3" -> {
                     bookingService.viewMyReservations();
-                    bookingService.cancelReservation(consoleInput.getIdBook("Enter an id", bookingService));
+                    bookingService.cancelReservation(consoleInput.getIdBook("Enter an id: ", bookingService));
                 }
                 case "4" -> bookingService.viewMyReservations();
                 case "5" -> processingReservationApp();
@@ -70,7 +68,6 @@ public class MenuHandler {
 
     public void handlingUserInputInAdminMenu(AdminMenu menu) {
         while (true) {
-            saveDataToFile();
             menu.showMenu();
             switch (consoleInput.getString("")) {
                 case "1" -> coworkingSpaceService.addCoworkingSpace(createCoworkingSpace());
@@ -78,8 +75,10 @@ public class MenuHandler {
                     CoworkingSpaceService.displayAllCoworkingSpaces();
                     coworkingSpaceService.removeCoworkingSpace(consoleInput.getIdCoworkingSpace("Enter and id: "));
                 }
-                case "3" ->
-                        coworkingSpaceService.updateAllInformationAboutCoworkingSpace(consoleInput.getId("Enter an id to delete: "), createCoworkingSpace());
+                case "3" -> {
+                    CoworkingSpaceService.displayAllCoworkingSpaces();
+                    coworkingSpaceService.updateAllInformationAboutCoworkingSpace(consoleInput.getId("Enter an id to update: "), createCoworkingSpace());
+                }
                 case "4" -> bookingService.displayAllBookings();
                 case "5" -> processingReservationApp();
                 default -> System.out.println("Incorrect input");
@@ -108,8 +107,5 @@ public class MenuHandler {
         return coworkingSpace;
     }
 
-    private void saveDataToFile() {
-        coworkingSpaceService.saveAllCoworkingSpacesToFile("src/main/resources/data/coworkingSpaces.bin");
-        bookingService.saveAllBookingsToFile("src/main/resources/data/bookings.bin");
-    }
+
 }

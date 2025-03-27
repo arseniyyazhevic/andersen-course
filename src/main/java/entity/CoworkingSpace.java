@@ -1,78 +1,41 @@
 package entity;
 
 import enums.TypeOfWorkspaces;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import util.DBUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
-
+@Data
+@NoArgsConstructor
+@Entity
 public class CoworkingSpace implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
-    private static Integer nextId = 1;
 
-    private final int id;
+    private static Integer nextId = DBUtils.getMaxIdFromCoworkingSpaces() + 1;
 
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    @Column
     private String name;
+
+    @Column
     private TypeOfWorkspaces typeOfWorkspaces;
+
+    @Column
     private Integer priceInDollars;
 
+    @Column
     private boolean availabilityStatus;
 
 
-    public CoworkingSpace(String name, TypeOfWorkspaces typeOfWorkspaces, Integer priceInDollars, boolean availabilityStatus) {
-        this.name = name;
-        this.typeOfWorkspaces = typeOfWorkspaces;
-        this.priceInDollars = priceInDollars;
-        this.availabilityStatus = availabilityStatus;
-        this.id = nextId++;
-    }
-
-    public CoworkingSpace() {
-        this.id = nextId++;
-    }
-
-    public TypeOfWorkspaces getTypeOfWorkspaces() {
-        return typeOfWorkspaces;
-    }
-
-    public void setTypeOfWorkspaces(TypeOfWorkspaces typeOfWorkspaces) {
-        this.typeOfWorkspaces = typeOfWorkspaces;
-    }
-
-    public Integer getPriceInDollars() {
-        return priceInDollars;
-    }
-
-    public void setPriceInDollars(Integer priceInDollars) {
-        this.priceInDollars = priceInDollars;
-    }
-
-    public boolean isAvailabilityStatus() {
-        return availabilityStatus;
-    }
-
-    public void setAvailabilityStatus(boolean availabilityStatus) {
-        this.availabilityStatus = availabilityStatus;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public String toString() {
-        return "(id)=" + id +
-                ", " + name +
-                ", typeOfWorkspaces=" + typeOfWorkspaces +
-                ", price=" + priceInDollars +
-                ", availabilityStatus=" + availabilityStatus;
+    public CoworkingSpace(String name, TypeOfWorkspaces typeOfWorkspace, int priceDollars, boolean availabilityStatus) { //TODO
     }
 }

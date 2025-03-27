@@ -10,4 +10,6 @@ public class AdminMenu extends Menu {
     public void showMenu() {
         ConsoleOutput.print(ADMIN_MENU_CONTEXT);
     }
+
+
 }
