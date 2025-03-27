@@ -10,6 +10,7 @@ import validation.BookingValidator;
 import validation.CoworkingSpaceValidator;
 import validation.UserValidator;
 
+import java.security.cert.CertPath;
 import java.time.LocalDate;
 import java.util.Scanner;
 
@@ -25,6 +26,7 @@ public class ConsoleInput {
         this.bookingValidator = bookingValidator;
         this.userValidator = userValidator;
     }
+
 
 
     public String getString(String prompt) {
@@ -121,7 +123,7 @@ public class ConsoleInput {
         while (true) {
             int id = getInt(prompt);
             try {
-                return coworkingSpaceValidator.validateIdCoworkingSpace(id);
+                return coworkingSpaceValidator.validateIdCoworkingSpace(id, coworkingSpaceService);
             } catch (ValidationException e) {
                 ConsoleOutput.println(e.getMessage());
             }

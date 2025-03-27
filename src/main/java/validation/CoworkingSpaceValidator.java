@@ -13,6 +13,7 @@ public class CoworkingSpaceValidator extends Validator {
     public CoworkingSpaceValidator(CoworkingSpaceService coworkingSpaceService){
         this.coworkingSpaceService = coworkingSpaceService;
     }
+  
     public Integer validatePriceOfCoworkingFromUser(int price) throws ValidationException {
         if (price > 10) {
             return price;

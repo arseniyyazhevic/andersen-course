@@ -11,7 +11,9 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class CoworkingSpaceService {
+
     public CoworkingSpaceService() {
+        loadCoworkingSpacesFromFile("src/main/resources/data/coworkingSpaces.bin");
     }
 
     public Optional<CoworkingSpace> getCoworkingSpaceById(int id) {

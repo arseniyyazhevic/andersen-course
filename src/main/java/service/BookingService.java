@@ -12,6 +12,7 @@ import java.util.*;
 public class BookingService {
 
     public BookingService() {
+        loadBookingFromFile(fileOfBookingsPath);
     }
 
 
