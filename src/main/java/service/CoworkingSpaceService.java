@@ -32,6 +32,7 @@ public class CoworkingSpaceService {
     public void updateAllInformationAboutCoworkingSpace(Long id, CoworkingSpace coworkingSpace) {
 //        CoworkingSpaceDBUtils.updateCoworkingSpace(id, coworkingSpace);
 //        coworkingSpaceDao.updateCoworkingSpace(id);
+        coworkingSpaceDao.updateCoworkingSpace(coworkingSpace, id);
     }
 
     public void removeCoworkingSpace(Long id) {
