@@ -104,6 +104,7 @@ public class MenuHandler {
         coworkingSpace.setTypeOfWorkspaces(consoleInput.getTypeOfCoworkingSpace("Type of coworking (private/open space/room/meeting room): "));
         coworkingSpace.setPriceInDollars(consoleInput.getPrice("Price in dollars: "));
         coworkingSpace.setAvailabilityStatus(consoleInput.getAvailableStatus("Available status (false - not available/ true - available): "));
+        System.out.println("New CoworkingSpace ID (before save): " + coworkingSpace.getId());
         return coworkingSpace;
     }
 

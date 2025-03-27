@@ -13,17 +13,16 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Table(name = "coworking_spaces")
-public class CoworkingSpace implements Serializable {
-
-    private static Integer nextId = DBUtils.getMaxIdFromCoworkingSpaces() + 1;
+public class CoworkingSpace {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "name")
     private String name;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type_of_workspace")
     private TypeOfWorkspaces typeOfWorkspaces;
 

@@ -32,7 +32,6 @@ public class CoworkingReservationApp {
 //        bookingService.loadBookingsFromDB();
 //        coworkingSpaceService.loadCoworkingSpacesFromDB();
         menuHandler.processingReservationApp();
-
     }
 }
 

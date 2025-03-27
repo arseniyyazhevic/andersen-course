@@ -16,10 +16,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "bookings")
-public class Booking implements Serializable {
+public class Booking {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "customer_name")

@@ -87,7 +87,7 @@ public class CoworkingSpaceDBUtils {
                 int id = rs.getInt("id");
                 String name = rs.getString("name");
                 String type = rs.getString("type_of_workspace");
-                int price = rs.getInt("price_dollars");
+                int price = rs.getInt("price_in_dollars");
                 Boolean status = rs.getBoolean("availability_status");
 
                 System.out.printf("%-5d | %-20s | %-15s | %-10d | %-15s%n",
