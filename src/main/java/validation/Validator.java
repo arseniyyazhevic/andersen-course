@@ -13,7 +13,7 @@ public abstract class Validator {
 
     }
 
-    public Integer validateId(Integer id) throws ValidationException {
+    public Long validateId(Long id) throws ValidationException {
         if (id != null) {
             return id;
         } else {

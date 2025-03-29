@@ -18,7 +18,7 @@ public class BookingDBUtils {
             preparedStatement.setString(2, booking.getCustomerName());
             preparedStatement.setDate(3, Date.valueOf(booking.getDate()));
             preparedStatement.setString(4, booking.getStartAndEndOfBookingTime());
-            preparedStatement.setInt(5, booking.getIdOfCoworkingSpace());
+            preparedStatement.setLong(5, booking.getIdOfCoworkingSpace());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             ConsoleOutput.println("SQL Error: could not enter bookings data into the database");
@@ -41,7 +41,7 @@ public class BookingDBUtils {
             preparedStatement.setString(1, booking.getCustomerName());
             preparedStatement.setDate(2, Date.valueOf(booking.getDate()));
             preparedStatement.setString(3, booking.getStartAndEndOfBookingTime());
-            preparedStatement.setInt(4, booking.getIdOfCoworkingSpace());
+            preparedStatement.setLong(4, booking.getIdOfCoworkingSpace());
             preparedStatement.setInt(5, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

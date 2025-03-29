@@ -43,7 +43,7 @@ public class CoworkingSpaceValidator extends Validator {
         }
     }
 
-    public int validateIdCoworkingSpace(int id) throws ValidationException {
+    public Long validateIdCoworkingSpace(Long id) throws ValidationException {
         coworkingSpaceService.getCoworkingSpaceById(id).orElseThrow(() -> new ValidationException(", coworking space with this id does not exist"));
         return id;
     }

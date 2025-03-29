@@ -57,7 +57,7 @@ public class MenuHandler {
                 case "2" -> bookingService.makeReservation(createBookingUsingUserInput());
                 case "3" -> {
                     bookingService.viewMyReservations();
-                    bookingService.cancelReservation(consoleInput.getIdBook("Enter an id: ", bookingService));
+                    bookingService.cancelReservation(consoleInput.getIdBook("Enter an id: "));
                 }
                 case "4" -> bookingService.viewMyReservations();
                 case "5" -> processingReservationApp();
@@ -104,6 +104,7 @@ public class MenuHandler {
         coworkingSpace.setTypeOfWorkspaces(consoleInput.getTypeOfCoworkingSpace("Type of coworking (private/open space/room/meeting room): "));
         coworkingSpace.setPriceInDollars(consoleInput.getPrice("Price in dollars: "));
         coworkingSpace.setAvailabilityStatus(consoleInput.getAvailableStatus("Available status (false - not available/ true - available): "));
+        System.out.println("New CoworkingSpace ID (before save): " + coworkingSpace.getId());
         return coworkingSpace;
     }
 
